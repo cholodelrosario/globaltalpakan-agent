@@ -1,7 +1,7 @@
 
 const routes = [
   {
-    path: '/',
+    path: '/player',
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: '', component: () => import('pages/Index.vue') },
@@ -11,10 +11,11 @@ const routes = [
     ]
   },
   {
-    path: '/enter',
+    path: '/',
     component: () => import('layouts/NoLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/LoginRegister.vue') },
+      { path: '', component: () => import('pages/Index.vue') },
+      { path: '/enter', component: () => import('pages/LoginRegister.vue') },
       { path: '/events', component: () => import('pages/Events.vue') }
     ]
   },
