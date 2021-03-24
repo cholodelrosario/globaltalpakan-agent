@@ -4,7 +4,9 @@ const routes = [
     path: '/agent',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/Index.vue') },,
+      { path: '', component: () => import('pages/Dashboard.vue') },
+      { path: '/withdrawals', component: () => import('pages/Withdraw.vue') },
+      { path: '/send-credits', component: () => import('pages/SendCredits.vue') },
     ]
   },
   {

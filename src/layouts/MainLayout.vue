@@ -32,20 +32,44 @@
             <q-item-label overline class="text-white">09654767706</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item clickable v-ripple to="/event" active-class="text-black bg-primary">
+        <q-item clickable v-ripple to="/agent" active-class="text-black bg-primary">
           <q-item-section avatar>
-            <q-avatar color="grey-1" text-color="dark" icon="play_arrow" />
+            <q-avatar color="grey-1" text-color="dark" icon="dashboard" />
           </q-item-section>
           <q-item-section>
-            <q-item-label class="text-weight-bold">Play</q-item-label>
+            <q-item-label class="text-weight-bold">Dashboard</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item clickable v-ripple to="/help" active-class="text-black bg-primary">
+        <q-item clickable v-ripple to="/send-credits" active-class="text-black bg-primary">
           <q-item-section avatar>
-            <q-avatar color="grey-1" text-color="dark" icon="help" />
+            <q-avatar color="grey-1" text-color="dark" icon="add_box" />
           </q-item-section>
           <q-item-section>
-            <q-item-label class="text-weight-bold">Help</q-item-label>
+            <q-item-label class="text-weight-bold">Send Credits</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item clickable v-ripple to="/withdrawals" active-class="text-black bg-primary">
+          <q-item-section avatar>
+            <q-avatar color="grey-1" text-color="dark" icon="credit_card" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label class="text-weight-bold">Withdrawals</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item clickable v-ripple to="/transactions" active-class="text-black bg-primary">
+          <q-item-section avatar>
+            <q-avatar color="grey-1" text-color="dark" icon="paid" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label class="text-weight-bold">Transactions</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item clickable v-ripple to="/statistics" active-class="text-black bg-primary">
+          <q-item-section avatar>
+            <q-avatar color="grey-1" text-color="dark" icon="bar_chart" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label class="text-weight-bold">Stats</q-item-label>
           </q-item-section>
         </q-item>
         <q-separator inset  />
@@ -53,22 +77,60 @@
           header
           class="text-grey-8"
         >
-          Wallet
+          Commission
         </q-item-label>
-        <q-item clickable v-ripple to="/buycredits" active-class="text-black bg-primary">
+        <q-item clickable v-ripple to="/convert" active-class="text-black bg-primary">
           <q-item-section avatar>
-            <q-avatar color="grey-1" text-color="dark" icon="add_box" />
+            <q-avatar color="grey-1" text-color="dark" icon="sync" />
           </q-item-section>
           <q-item-section>
-            <q-item-label class="text-weight-bold">Add Credits</q-item-label>
+            <q-item-label class="text-weight-bold">Convert</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item clickable v-ripple to="/withdraw" active-class="text-black bg-primary">
+        <q-item clickable v-ripple to="/requests" active-class="text-black bg-primary">
           <q-item-section avatar>
-            <q-avatar color="grey-1" text-color="dark" icon="credit_card" />
+            <q-avatar color="grey-1" text-color="dark" icon="list_alt" />
           </q-item-section>
           <q-item-section>
-            <q-item-label class="text-weight-bold">Withdraw</q-item-label>
+            <q-item-label class="text-weight-bold">Requests</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-separator inset  />
+        <q-item-label
+          header
+          class="text-grey-8"
+        >
+          Downlines
+        </q-item-label>
+        <q-item clickable v-ripple to="/downlines" active-class="text-black bg-primary">
+          <q-item-section avatar>
+            <q-avatar color="grey-1" text-color="dark" icon="people" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label class="text-weight-bold">List</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item clickable v-ripple to="/movements" active-class="text-black bg-primary">
+          <q-item-section avatar>
+            <q-avatar color="grey-1" text-color="dark" icon="moving" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label class="text-weight-bold">Movements</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-separator inset  />
+        <q-item-label
+          header
+          class="text-grey-8"
+        >
+          Arenas
+        </q-item-label>
+        <q-item clickable v-ripple to="/cockpit" active-class="text-black bg-primary">
+          <q-item-section avatar>
+            <q-avatar color="grey-1" text-color="dark" icon="recent_actors" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label class="text-weight-bold">Cockpit w/ drawals</q-item-label>
           </q-item-section>
         </q-item>
         <q-separator inset  />
