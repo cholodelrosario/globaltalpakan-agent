@@ -57,12 +57,32 @@
       <div class="text-overline">TRENDS</div>
       <q-scroll-area
         horizontal
-        style="height: 210px; width: 100%;"
+        visible="false"
+        style="height: 30vh; width: 100%;"
       >
         <div class="row no-wrap">
-          <div v-for="n in 10" :key="n" style="width: 150px" class="q-pa-sm">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Architecto fuga quae veritatis blanditiis sequi id expedita amet esse aspernatur! Iure, doloribus!
+          <div v-for="n in 15" :key="n" >
+          <q-list dark bordered separator style="width:35px" v-if="n % 2 !== 0">
+          <div  class="text-center ">
+             <q-icon name="circle" color="blue" class="q-ma-sm"/>
+             <q-separator dark />
+             <q-icon name="circle" color="blue" class="q-ma-sm"/>
+             <q-separator dark />
+             <q-icon name="circle" color="blue" class="q-ma-sm"/>
+             <q-separator dark />
+             <q-icon name="circle" color="blue" class="q-ma-sm"/>
           </div>
+          </q-list>    
+          <q-list dark bordered style="width:35px" v-else>
+          <div  class="text-center ">
+             <q-icon name="circle" color="red" class="q-ma-sm"/>
+             <q-separator dark />
+             <q-icon name="circle" color="red" class="q-ma-sm"/>
+          </div>
+          </q-list>      
+          </div>
+
+
         </div>        
       </q-scroll-area>
     </div>
