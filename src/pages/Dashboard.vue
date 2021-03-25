@@ -30,12 +30,12 @@
             </q-item>
         </q-list>
         <div class="container row q-gutter-sm q-mt-sm">
-            <q-btn color="primary" class="text-black col" label="Send Credits" icon="send"/>
-            <q-btn color="primary" class="text-black col" label="Withdrawals" icon="credit_card"/>
+            <q-btn color="primary" class="text-black col" label="Send Credits" icon="send" @click="$router.push('/send-credits')"/>
+            <q-btn color="primary" class="text-black col" label="Withdrawals" icon="credit_card" @click="$router.push('/withdrawals')"/>
         </div>
         <div class="container row q-gutter-sm q-mt-sm">
             <q-btn color="primary" class="text-black col" label="Inv. Link" icon="mail" @click="$router.push('/invlink')"/>
-            <q-btn color="primary" class="text-black col" label="Convert" icon="sync"/>
+            <q-btn color="primary" class="text-black col" label="Convert" icon="sync" @click="$router.push('/convert')"/>
         </div>
         <!-- DOWNLINES -->
         <div class="q-mt-lg q-pt-lg">
