@@ -87,7 +87,7 @@
             <q-item-label class="text-weight-bold">Convert</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item clickable v-ripple to="/requests" active-class="text-black bg-primary">
+        <q-item clickable v-ripple to="/convert-requests" active-class="text-black bg-primary">
           <q-item-section avatar>
             <q-avatar color="grey-1" text-color="dark" icon="list_alt" />
           </q-item-section>

@@ -34,7 +34,7 @@
             <q-btn color="primary" class="text-black col" label="Withdrawals" icon="credit_card"/>
         </div>
         <div class="container row q-gutter-sm q-mt-sm">
-            <q-btn color="primary" class="text-black col" label="Inv. Link" icon="mail"/>
+            <q-btn color="primary" class="text-black col" label="Inv. Link" icon="mail" @click="$router.push('/invlink')"/>
             <q-btn color="primary" class="text-black col" label="Convert" icon="sync"/>
         </div>
         <!-- DOWNLINES -->

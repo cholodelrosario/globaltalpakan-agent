@@ -9,6 +9,7 @@
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
+    "@chenfengyuan/vue-qrcode": "^1.0.2",
     "@quasar/extras": "^1.0.0",
     "axios": "^0.21.1",
     "core-js": "^3.9.1",
@@ -16,6 +17,7 @@
     "lodash": "^4.17.21",
     "moment": "^2.29.1",
     "quasar": "^1.0.0",
+    "vue": "^2.6.12",
     "vue-firestore": "^0.3.30"
   },
   "devDependencies": {
