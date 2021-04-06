@@ -94,7 +94,11 @@ module.exports = function (/* ctx */) {
       // directives: [],
 
       // Quasar plugins
-      plugins: [],
+      plugins: [
+        'Notify',
+        'Dialog',
+        'Loading'
+      ],
       config: {
         brand: {
           primary: '#fde03a',

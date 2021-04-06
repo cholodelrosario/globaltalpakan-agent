@@ -29,7 +29,7 @@
             </q-input>
         </q-card-section>
         <q-card-actions align="center">
-            <q-btn color="primary" class="text-black full-width" label="Login Account" @click="$router.push('/agent')"/>
+            <q-btn color="primary" class="text-black full-width" label="Login Account" @click="loginEmail"/>
         </q-card-actions>
             
     </q-card> 
@@ -41,6 +41,7 @@
 </template>
 
 <script>
+import { firebaseAuth,firebaseApp,firebaseDb,firefirestore } from 'boot/firebase'
 export default {
     data(){
         return {
@@ -56,7 +57,7 @@ export default {
     },
     firestore(){
       return {
-        DashboardUsers: this.$db.collection('DashboardUsers'),
+        Agents: this.$db.collection('Agents'),
       }
     }, 
     methods:{
@@ -79,7 +80,90 @@ export default {
                 })                   
             }
             
-        }
+        },
+        loginEmail(){
+        let emailAdd = `${this.mobile}@gtagent.com`
+        let self = this
+        // let firstLogin = false
+            let checkActive = this.$lodash.findIndex(this.Agents,a=>{
+                return a.accountPhone.replace(/[^A-Z0-9]+/ig, "") == this.mobile && a.activated == true
+            })
+            console.log(checkActive)
+            if(checkActive == -1){
+                    self.$q.dialog({
+                    title: `This account has no access to the system. Your account may be inactive. Please contact admin for assistance.`,
+                    type: 'negative',
+                    color: 'negative',
+                    textColor: 'white',
+                    icon: 'warning',
+                    ok: 'Ok',
+                    
+                })  
+                return               
+            } else {
+                firebaseAuth.signInWithEmailAndPassword(emailAdd, this.password)
+                .then(result => {
+                console.log(result, 'result')
+                let user = result.user
+                console.log(user,'user')
+                //check if paid na
+                let findUser = this.Agents.filter(a=>{
+                    return a.accountPhone.replace(/[^A-Z0-9]+/ig, "") == this.mobile
+                })[0]
+                let store = {
+                    displayName: findUser.accountFirstName ? findUser.accountFirstName + ' ' + findUser.accountLastName : null,
+                    email: user.email,
+                    phone: findUser.accountPhone.replace(/[^A-Z0-9]+/ig, ""),
+                    // photoURL: user.photoURL,
+                    uid: user.uid,
+                    refreshToken: user.refreshToken,
+                    userDBKey: findUser['.key'],
+                    // inviteLink: findUser.inviteLink
+                }
+                console.log(store)
+        
+                self.$store.commit('useraccount/setDashboardUser', store)
+                // if(findUser.changePass == true){
+                //     firstLogin = true
+                // }
+                firebaseAuth.setPersistence(this.$firebase.auth.Auth.Persistence.LOCAL)
+                    .then(function() {
+                        console.log('setPersistence!')
+                        // Existing and future Auth states are now persisted in the current
+                        // session only. Closing the window would clear any existing state even
+                        // if a user forgets to sign out.
+                        // ...
+                        // New sign-in will be persisted with session persistence.
+                        return firebaseAuth.signInWithEmailAndPassword(emailAdd, self.password);
+                    })
+                    .catch(function(error) {
+                        // Handle Errors here.
+                        
+                        var errorCode = error.code;
+                        var errorMessage = error.message;
+                        console.log(errorMessage)
+                    });
+                    self.$router.push('/agent')
+                    
+                })
+                .catch(err =>{
+                    console.log(err, 'error')
+                    self.$q.dialog({
+                        title: `${err.message}`,
+                        type: 'negative',
+                        color: 'negative',
+                        textColor: 'white',
+                        icon: 'warning',
+                        ok: 'Ok',
+                        
+                    }).onOk(()=>{
+                        // this.email = ''
+                        this.password = ''
+                    })
+                    //this.isLoading = false
+                })
+            }
+        },
     }  
 }
 </script>

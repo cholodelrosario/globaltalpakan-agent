@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-// import example from './module-example'
+import sms from './sms'
+import useraccount from './useraccount'
 
 Vue.use(Vuex)
 
@@ -18,6 +19,8 @@ export default function (/* { ssrContext } */) {
   const Store = new Vuex.Store({
     modules: {
       // example
+      sms,
+      useraccount
     },
 
     // enable strict mode (adds overhead!)
