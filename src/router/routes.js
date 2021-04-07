@@ -11,6 +11,7 @@ const routes = [
       { path: '/invlink', component: () => import('pages/InvLink.vue') },///
       { path: '/convert-requests', component: () => import('pages/ConversionRequests.vue') },
       { path: '/movements', component: () => import('pages/Movements.vue') },
+      { path: '/downlines', component: () => import('pages/Downlines.vue') },
     ]
   },
   {
