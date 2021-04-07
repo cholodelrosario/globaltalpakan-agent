@@ -52,14 +52,15 @@ export default {
             code: '',
             logRegTab: true,
             verifyTab: false,
-            tab: 'Login'
+            tab: 'Login',
+            userObj: null,
         }
     },
-    firestore(){
-      return {
-        Agents: this.$db.collection('Agents'),
-      }
-    }, 
+    // firestore(){
+    //   return {
+    //     Agents: this.$db.collection('Agents'),
+    //   }
+    // }, 
     methods:{
         loginAccount(){
             let index = this.$lodash.findIndex(this.DashboardUsers, a=>{
@@ -81,13 +82,15 @@ export default {
             }
             
         },
-        loginEmail(){
+        async loginEmail(){
         let emailAdd = `${this.mobile}@gtagent.com`
         let self = this
         // let firstLogin = false
-            let checkActive = this.$lodash.findIndex(this.Agents,a=>{
-                return a.accountPhone.replace(/[^A-Z0-9]+/ig, "") == this.mobile && a.activated == true
-            })
+            await this.checkIfActive(this.mobile)
+            let checkActive = this.userObj.length > 0 ? 0 : -1
+            // let checkActive = this.$lodash.findIndex(this.Agents,a=>{
+            //     return a.accountPhone.replace(/[^A-Z0-9]+/ig, "") == this.mobile && a.activated == true
+            // })
             console.log(checkActive)
             if(checkActive == -1){
                     self.$q.dialog({
@@ -107,11 +110,13 @@ export default {
                 let user = result.user
                 console.log(user,'user')
                 //check if paid na
-                let findUser = this.Agents.filter(a=>{
-                    return a.accountPhone.replace(/[^A-Z0-9]+/ig, "") == this.mobile
-                })[0]
+
+                let findUser = this.userObj.length > 0 ? this.userObj[0] : null
+                // let findUser = this.Agents.filter(a=>{
+                //     return a.accountPhone.replace(/[^A-Z0-9]+/ig, "") == this.mobile
+                // })[0]
                 let store = {
-                    displayName: findUser.accountFirstName ? findUser.accountFirstName + ' ' + findUser.accountLastName : null,
+                    displayName: findUser.accountName ? findUser.accountName : null,
                     email: user.email,
                     phone: findUser.accountPhone.replace(/[^A-Z0-9]+/ig, ""),
                     // photoURL: user.photoURL,
@@ -164,6 +169,14 @@ export default {
                 })
             }
         },
+        async checkIfActive(accountPhone){
+            await this.$binding("userObj", this.$db.collection("Agents").where("accountPhone", "==", accountPhone).where("activated", "==", true))
+            .then((agent) => {
+                console.log(agent,'agent') // => __ob__: Observer
+            }).catch(err => {
+                console.error(err)
+            })                    
+        }
     }  
 }
 </script>
