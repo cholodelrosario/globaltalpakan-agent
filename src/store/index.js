@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-
+import createPersistedState from "vuex-persistedstate";
 import sms from './sms'
 import useraccount from './useraccount'
 
@@ -22,7 +22,7 @@ export default function (/* { ssrContext } */) {
       sms,
       useraccount
     },
-
+    plugins: [createPersistedState()],
     // enable strict mode (adds overhead!)
     // for dev mode only
     strict: process.env.DEBUGGING

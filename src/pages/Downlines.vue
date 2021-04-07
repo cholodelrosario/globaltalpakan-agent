@@ -39,8 +39,9 @@ export default {
                 '09657059405 / JOHN DOE ',
                 '09657059423 / JANE DOE ',
                 '09999999923 / JEW DOE '
-            ]
+            ],
         }
-    }
+    },
+
 }
 </script>
