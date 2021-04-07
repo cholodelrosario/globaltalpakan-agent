@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import createPersistedState from "vuex-persistedstate";
 import sms from './sms'
 import useraccount from './useraccount'
+import wallet from './wallet'
 
 Vue.use(Vuex)
 
@@ -20,7 +21,8 @@ export default function (/* { ssrContext } */) {
     modules: {
       // example
       sms,
-      useraccount
+      useraccount,
+      wallet
     },
     plugins: [createPersistedState()],
     // enable strict mode (adds overhead!)

@@ -15,7 +15,7 @@
           
         </q-toolbar-title>
 
-        <div class="text-white">₱ 0.00 <q-icon name="account_balance_wallet"  size="sm"/></div>
+        <div class="text-white" v-show="walletObj">₱ {{walletObj ? walletObj.creditsAmount : 0}} <q-icon name="account_balance_wallet"  size="sm"/></div>
       </q-toolbar>
     </q-header>
 
@@ -272,8 +272,19 @@ export default {
 
       dialog: false,
       leftDrawerOpen: false,
-      essentialLinks: linksData
+      essentialLinks: linksData,
+      walletObj: null
     }
+  },
+  mounted(){
+        let user = this.$store.getters['useraccount/isAuthenticated']
+        console.log(user,'user')
+        this.$binding("walletObj", this.$db.collection("Wallet").doc(user.uid))
+        .then((wallet) => {
+            console.log(wallet,'wallet') // => __ob__: Observer
+        }).catch(err => {
+            console.error(err)
+        })     
   }
 }
 </script>
