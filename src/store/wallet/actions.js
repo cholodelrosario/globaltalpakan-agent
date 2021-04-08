@@ -8,7 +8,6 @@ export async function creditWallet ({rootState},payload) {
     const account = dashboardUser.account
     // payload structure
     // downlineID, to(account), credits 
-
     Dialog.create({
         title: `Do you confirm this credit sending transaction?`,
         message: `SEND ${payload.credits} CREDITS to ${payload.to.accountPhone} - ${payload.to.accountName}`,
@@ -29,6 +28,16 @@ export async function creditWallet ({rootState},payload) {
             await addCredits(payload.credits,payload.downlineID)
             .then(async ()=>{
                 await recordHistory(payload.to,account,payload.credits)
+                Dialog.create({
+                    title: `Sending Credits Successful !`,
+                    message: `${payload.credits} CREDITS to ${payload.to.accountPhone} - ${payload.to.accountName}`,
+                    type: 'info',
+                    color: 'primary',
+                    textColor: 'white',
+                    icon: 'info',
+                    ok: 'close',
+                    dark: true,
+                })
             })
         })
     })
