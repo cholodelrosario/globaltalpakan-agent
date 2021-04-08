@@ -123,6 +123,7 @@ export default {
                     uid: user.uid,
                     refreshToken: user.refreshToken,
                     userDBKey: findUser['.key'],
+                    account: findUser
                     // inviteLink: findUser.inviteLink
                 }
                 console.log(store)
