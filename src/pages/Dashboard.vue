@@ -70,6 +70,8 @@
 </template>
 
 <script>
+import { date } from 'quasar'
+const { getDateDiff } = date
 export default {
     data(){
         return {
@@ -135,6 +137,9 @@ export default {
                 await this.$store.dispatch('wallet/creditWallet',{to: downline, credits: data, downlineID: downline['.key']})
 
             })            
+        },
+        isWithin7Days(lastTransactionDay){
+            return getDateDiff(new Date(),new Date(lastTransactionDay),'days') > 7
         }
     }
 }

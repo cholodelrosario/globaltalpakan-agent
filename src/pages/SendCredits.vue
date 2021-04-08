@@ -49,7 +49,7 @@
             <div class="text-center text-white q-pa-md text-h6 full-height" v-show="proceedScreen">
                 <!-- <q-icon name="send" size="lg"/> -->
                 <br> You will be sending
-                <br> <span class="text-primary text-h4">{{sendAmount}}.00 </span>
+                <br> <span class="text-primary text-h4">{{sendAmount}} </span>
                 <br> 
                 <br>  <span class="text-primary text-h4" v-show="selectedDownline">{{selectedDownline ? selectedDownline.accountPhone : ''}} / {{selectedDownline ? selectedDownline.accountName : ''}} </span>
                 <br><br>
@@ -64,6 +64,8 @@
 </template>
 
 <script>
+import { date } from 'quasar'
+const { getDateDiff } = date
 export default {
     data(){
         return {
@@ -175,6 +177,9 @@ export default {
                 self.prepareScreen = true
              }, 3000);
             
+        },
+        isWithin7Days(lastTransactionDay){
+            return getDateDiff(new Date(),new Date(lastTransactionDay),'days') > 7
         }
     }
 }

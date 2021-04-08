@@ -1,5 +1,5 @@
 <template>
-    <q-page class="flex container q-pa-lg bg-dark">
+    <q-page class="container flex q-pa-lg bg-dark">
         <div class="full-width">
             <h5 class="text-primary text-weight-bolder q-mt-none q-mb-sm">Downlines</h5>
             <q-list class="text-white" separator>
@@ -8,7 +8,7 @@
                         <q-item-label class="text-white" caption lines="2">Downline</q-item-label>
                     </q-item-section>
                     <q-item-section>
-                        <!-- <q-item-label class="text-secondary text-right" caption>MTD Comm</q-item-label> -->
+                        <!-- <q-item-label class="text-right text-secondary" caption>MTD Comm</q-item-label> -->
                     </q-item-section>
                     <q-item-section side>
                         &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp;  &nbsp;  &nbsp;  
@@ -21,7 +21,7 @@
                             {{n.accountPhone}} / {{n.accountName}}
                         </q-item-section>
                         <q-item-section>
-                            <q-item-label class="text-secondary text-right" caption></q-item-label>
+                            <q-item-label class="text-right text-secondary" caption></q-item-label>
                         </q-item-section>
                     <q-item-section side>
                         <q-btn color="primary" icon="send" class="text-black" size="md" @click="confirmTransaction(n)"  />
@@ -33,6 +33,8 @@
   </q-page>
 </template>
 <script>
+import { date } from 'quasar'
+const { getDateDiff } = date
 export default {
     data(){
         return{
@@ -98,6 +100,9 @@ export default {
                 await this.$store.dispatch('wallet/creditWallet',{to: downline, credits: data, downlineID: downline['.key']})
 
             })            
+        },
+        isWithin7Days(lastTransactionDay){
+            return getDateDiff(new Date(),new Date(lastTransactionDay),'days') > 7
         }
     }
 
