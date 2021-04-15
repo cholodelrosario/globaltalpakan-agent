@@ -12,6 +12,7 @@ const routes = [
       { path: '/convert-requests', component: () => import('pages/ConversionRequests.vue') },
       { path: '/movements', component: () => import('pages/Movements.vue') },
       { path: '/downlines', component: () => import('pages/Downlines.vue') },
+      { path: '/stats', component: () => import('pages/StatsPage.vue') },
     ]
   },
   {
