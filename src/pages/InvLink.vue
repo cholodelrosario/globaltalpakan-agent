@@ -6,14 +6,14 @@
             <q-card class="my-card text-center q-pa-md">
                 Use this link to recruit downlines.
                 Screenshot and share QR CODE / Send them the link below.
-                <qrcode value="https://globaltalpakan.com/r/QWERTY1" :options="{ width: 200 }"></qrcode>
+                <qrcode :value="`https://globaltalpakan.com/r/${returnLink}`" :options="{ width: 200 }"></qrcode>
                 <q-card-section>
                     <q-list bordered class="q-pa-md">
-                        <q-item-label caption lines="2">https://globaltalpakan.com/r/QWERTY1</q-item-label>
+                        <q-item-label caption lines="2">{{`https://globaltalpakan.com/r/${returnLink}`}}</q-item-label>
                     </q-list>
                 </q-card-section>
                 <q-card-actions vertical align="center">
-                    <q-btn color="primary" class="text-black full-width" label="Copy Link" />
+                    <q-btn color="primary" class="text-black full-width" label="Copy Link" v-clipboard="`https://globaltalpakan.com/#/r/${returnLink}`"         v-clipboard:success="clipboardSuccessHandler" v-clipboard:error="clipboardErrorHandler"/>
                     <br>
                     <q-btn flat class="text-grey-8 full-width" label="back to dashboard"  icon="arrow_left" @click="$router.push('/agent')"/>
                 </q-card-actions>
@@ -29,6 +29,21 @@ import Vue from 'vue'
 
 Vue.component(VueQrcode.name, VueQrcode);
 export default {
+    computed:{
+        returnLink(){
+            let user = this.$store.getters['useraccount/isAuthenticated']
+            return user.inviteLink
+        }
+    },
+    methods:{
+        clipboardSuccessHandler ({ value, event }) {
+            console.log('success', value)
+            this.$clipboard(value)
+        },
     
+        clipboardErrorHandler ({ value, event }) {
+        console.log('error', value)
+        }
+    }
 }
 </script>
