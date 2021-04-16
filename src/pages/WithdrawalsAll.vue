@@ -2,15 +2,14 @@
     <q-page class="flex container q-pa-lg bg-dark">
         <div class="full-width">
             <div class="row">
-                <div><h5 class="text-primary text-weight-bolder q-mt-none">TRANSACTIONS</h5></div>
+                <div><h5 class="text-primary text-weight-bolder q-mt-none"><router-link to="/withdrawals" style="display: inline-block;text-decoration:none;"><span class="material-icons">arrow_back</span></router-link> ALL WITHDRAWALS</h5></div>
                 <q-space></q-space>
                 <div class="text-white"><q-icon name="account_balance_wallet"  size="sm"/> CREDITS : 0.00</div>
             </div>
-
             <div class="row">
-                <q-btn-toggle
+                <div class="col-xs">
+                    <q-btn-toggle
                     v-model="selectedFilter"
-                    class="my-custom-toggle"
                     no-caps
                     rounded
                     elevated
@@ -18,7 +17,8 @@
                     color="dark"
                     text-color="primary"
                     :options="chips"
-                />
+                    />
+                </div>
             </div>
             <q-list class="text-white" separator>
                 <br>
@@ -26,13 +26,13 @@
                     <!-- Left Side -->
                     <q-item-section top side>
                         <q-item-label>200.00</q-item-label>
-                        <q-item-label class="text-secondary" caption lines="2">Sales</q-item-label>
+                        <q-item-label class="text-secondary" caption lines="2">Completed</q-item-label>
                     </q-item-section>
                     <q-item-section top>
                         <q-item-label>Gilbert Franco</q-item-label>
                         <q-item-label class="text-secondary" caption lines="2">09778034981</q-item-label>
                     </q-item-section>
-
+                                
                     <!-- Right Side -->
                     <q-item-section side top>
                         <q-item-label class="text-secondary" caption>Today</q-item-label>
@@ -66,3 +66,9 @@ export default {
     }
 }
 </script>
+<style scoped>
+.material-icons {
+    color: #fde03a;
+}
+</style>
+
