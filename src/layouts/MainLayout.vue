@@ -64,7 +64,7 @@
             <q-item-label class="text-weight-bold">Transactions</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item clickable v-ripple to="/statistics" active-class="text-black bg-primary">
+        <q-item clickable v-ripple to="/stats" active-class="text-black bg-primary">
           <q-item-section avatar>
             <q-avatar color="grey-1" text-color="dark" icon="bar_chart" />
           </q-item-section>
