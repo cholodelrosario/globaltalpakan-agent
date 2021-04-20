@@ -27,7 +27,7 @@
                         <!-- HISTORY -->
                         <div class="q-mt-lg q-pt-sm">
                             <h6 class="text-secondary flex flex-center q-ma-none">WITHDRAW HISTORY</h6>
-                            <q-list v-for="(a, index) in this.agentWithdrawal" :key="index"  :class="a.status == false ? 'text-white bg-white-10' : 'text-white bg-green-10'" bordered separator>
+                            <q-list v-for="(a, index) in this.getData" :key="index"  :class="a.status == false ? 'text-white bg-white-10' : 'text-white bg-green-10'" bordered separator>
                                 <!-- <br> -->
                                 <div class="col-12 row">
                                     <div class="row col-9 column q-pt-sm" >
@@ -47,7 +47,19 @@
                                     </div>
                                 </div>
                             </q-list>
-                            <q-btn outline rounded color="primary" label="See All" class="full-width q-mt-md" v-ripple to="/all-withdrawals"/> 
+                            <div class="q-pa-lg flex flex-center">
+                                <q-pagination
+                                    v-model="page"
+                                    :min="currentPage"
+                                    :max="Math.ceil(this.agentWithdrawal.length/totalPages)"
+                                    direction-links
+                                    unelevated
+                                    color="black"
+                                    active-color="yellow"
+                                    active-text-color="black"
+                                />
+                            </div>
+                            <!-- <q-btn outline rounded color="primary" label="See All" class="full-width q-mt-md" v-ripple to="/all-withdrawals"/>  -->
                         </div>
                     </q-tab-panel>
 
@@ -59,7 +71,7 @@
                                 </div>
                             </div>
                             <!-- <h6 class="text-secondary flex flex-center q-ma-none">WITHDRAW HISTORY</h6> -->
-                            <q-list v-for="(p, index) in this.playersWithdrawal" :key="index" :class="p.status == false ? 'text-white bg-white-10' : 'text-white bg-green-10'" bordered separator>
+                            <q-list v-for="(p, index) in this.newgetData" :key="index" :class="p.status == false ? 'text-white bg-white-10' : 'text-white bg-green-10'" bordered separator>
                                 <!-- <br> -->
                                 <div class="col-12 row">
                                     <div class="row col-8 column q-pt-sm" >
@@ -106,6 +118,18 @@
                                     </div>
                                 </div>
                             </q-list>
+                            <div class="q-pa-lg flex flex-center">
+                                <q-pagination
+                                    v-model="newpage"
+                                    :min="newcurrentPage"
+                                    :max="Math.ceil(this.playersWithdrawal.length/newtotalPages)"
+                                    direction-links
+                                    unelevated
+                                    color="black"
+                                    active-color="yellow"
+                                    active-text-color="black"
+                                />
+                            </div>
                             <q-btn outline rounded color="primary" label="See All" class="full-width q-mt-md" v-ripple to="/all-withdrawals"/> 
                         </div>
                     </q-tab-panel>
@@ -121,6 +145,16 @@ import { date } from 'quasar'
 export default {
     data(){
         return {
+            NewplayersWithdraw: [],
+            newpage: 1,
+            newcurrentPage:1,
+            newnextPage: null,
+            newtotalPages:10,
+            agentsWithdraw: [],
+            page: 1,
+            currentPage:1,
+            nextPage: null,
+            totalPages:10,
             chips: [
                 {label: 'All', value: 'All'},
                 {label: 'Visible', value: 'Visible'},
@@ -334,7 +368,6 @@ export default {
         recordHistory(){
                 let agentID = this.agentOBj['.key']
                 let MA = this.$lodash.filter(this.MasterAgents, a => {
-                    console.log(a, 'a')
                     return a['.key'] === this.agentOBj.masterAgentKey 
                 })
                 let reciever = {...MA[0]}
@@ -344,7 +377,6 @@ export default {
                 reciever.accountID = recieverID
 
                 let sender = {...this.agentOBj}
-                // let senderID = sender.userDBKey
                 delete sender['.key']
                 sender.accountID = agentID
                 console.log(sender, 'ID')
@@ -368,55 +400,50 @@ export default {
         },
     },
     computed: {
+        newgetData(){
+			return 	this.playersWithdrawal.slice((this.newpage-1)*this.newtotalPages,(this.newpage-1)*this.newtotalPages+this.newtotalPages)
+        },
+        getData(){
+			return 	this.agentWithdrawal.slice((this.page-1)*this.totalPages,(this.page-1)*this.totalPages+this.totalPages)
+        },
         isValid () {
             return this.withdrawAmount >= 500 && this.walletObj.creditsAmount >= this.withdrawAmount
         },
         agentWithdrawal(){
-            let withdrawals = this.$lodash.filter(this.AgentsWithdrawal, p => {
+            let withdrawals = this.$lodash.filter(this.agentsWithdraw, p => {
                 console.log(p, 'p')
                 return p.agentKey === this.agentOBj['.key'] 
             })
             let orderBy = this.$lodash.orderBy(withdrawals, ['timestamp'], ['desc']);
-                // return orderBy
-            // console.log(agent, 'agent')
                 return orderBy
         },
         playersWithdrawal(){
-            let pWithdraw = this.$lodash.filter(this.PlayersWithdrawal, p => {
-                // console.log(p, 'p')
+            let pWithdraw = this.$lodash.filter(this.NewplayersWithdraw, p => {
                 return p.agentKey === this.agentOBj['.key'] 
             })
             let orderByP = this.$lodash.orderBy(pWithdraw, ['timestamp'], ['desc']);
-                // return orderBy
-            // console.log(agent, 'agent')
-                // return orderByP
             if(this.selectedFilter == 'All'){
                 let AllArchive = this.$lodash.filter(orderByP, p => {
-                    // console.log(p, 'p')
                     return p.archive !== true
                 })
                     return AllArchive
             }else if(this.selectedFilter == 'Approved'){
                 let wd = this.$lodash.filter(orderByP, p => {
-                    // console.log(p, 'p')
                     return p.status == true && p.archive == false
                 })
                     return wd
             }else if(this.selectedFilter == 'Pending'){
                 let wdOne = this.$lodash.filter(orderByP, p => {
-                    // console.log(p, 'p')
                     return p.status === false 
                 })
                     return wdOne
             }else if(this.selectedFilter == 'Hidden'){
                 let wdOne = this.$lodash.filter(orderByP, p => {
-                    // console.log(p, 'p')
                     return p.archive === true 
                 })
                     return wdOne
             }else{
                 let wdOne = this.$lodash.filter(orderByP, p => {
-                    // console.log(p, 'p')
                     return p.archive !== true 
                 })
                     return wdOne
@@ -453,6 +480,14 @@ export default {
         this.$binding('PlayersWithdrawal', this.$db.collection('PlayersWithdrawal'))
         .then(PlayersWithdrawal => {
           console.log(PlayersWithdrawal, 'PlayersWithdrawal')
+        })
+        this.$binding('agentsWithdraw', this.$db.collection('AgentsWithdrawal').where("from.accountID", "==", user.uid).limit(40))
+        .then(agentsWithdraw => {
+          console.log(agentsWithdraw, 'agentsWithdraw')
+        })
+        this.$binding('NewplayersWithdraw', this.$db.collection('PlayersWithdrawal').where("agentKey", "==", user.uid).limit(40))
+        .then(NewplayersWithdraw => {
+          console.log(NewplayersWithdraw, 'NewplayersWithdraw')
         }) 
     }
 }

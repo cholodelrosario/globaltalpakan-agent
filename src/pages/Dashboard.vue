@@ -5,11 +5,11 @@
         <q-list>
             <q-item class="text-black bg-primary q-pa-md">
                 <q-item-section class="text-h6">
-                    <q-item-label>100.98</q-item-label>
+                    <q-item-label>₱ {{walletObj.commissionBalance === undefined || walletObj.commissionBalance === null ? 0 : walletObj.commissionBalance}}</q-item-label>
                     <q-item-label caption lines="2">Commission<br> Balance</q-item-label>
                 </q-item-section>
                 <q-item-section class="text-h6">
-                    <q-item-label>10,000.50</q-item-label>
+                    <q-item-label>₱ {{sumMTD}}</q-item-label>
                     <q-item-label caption lines="2">Commission <br>(Month to Date)</q-item-label>
                 </q-item-section>
             </q-item>
@@ -21,10 +21,10 @@
             <q-item dark class="bg-grey-8 q-pa-md">
                 <q-item-section>
                     <q-item-label caption lines="2">Main Coor: 
-                        <span class="text-primary q-ml-sm">Master Agent</span>
+                        <span class="text-primary q-ml-sm">{{returnMyMasterAgent[0].accountFirstName + ' ' + returnMyMasterAgent[0].accountLastName}}</span>
                     </q-item-label>
                     <q-item-label caption lines="2">Commission: 
-                        <span class="q-ml-sm">1.00% of bets</span>
+                        <span class="q-ml-sm">{{agentObj.percentSetByMA}}%</span>
                     </q-item-label>
                 </q-item-section>
             </q-item>
@@ -75,6 +75,11 @@ const { getDateDiff } = date
 export default {
     data(){
         return {
+            agents: [],
+            MasterAgents: [],
+            walletObj: null,
+            masterAgentObj: null,
+            agentObj: null,
             withdrawAmount: 0,
             outlet: '',
             options: [
@@ -83,6 +88,7 @@ export default {
             ],
             Downlines: [],
             Wallet: null,
+            commsObj: null,
         }
     },
     mounted(){
@@ -93,7 +99,33 @@ export default {
             console.log(downlines,'downlines') // => __ob__: Observer
         }).catch(err => {
             console.error(err)
-        })  
+        })
+        this.$binding("agentObj", this.$db.collection("Agents").doc(user.uid))
+        .then((agentObj) => {
+            console.log(agentObj,'agentObj') // => __ob__: Observer
+        }).catch(err => {
+            console.error(err)
+        })
+        this.$binding("walletObj", this.$db.collection("Wallet").doc(user.uid))
+        .then((walletObj) => {
+            console.log(walletObj,'walletObj') // => __ob__: Observer
+        }).catch(err => {
+            console.error(err)
+        })
+        this.$binding("commsObj", this.$db.collection("CommissionHistory").where("accountID", "==", user.uid))
+        .then((commsObj) => {
+            console.log(commsObj,'commsObj') // => __ob__: Observer
+        }).catch(err => {
+            console.error(err)
+        })
+        this.$binding('MasterAgents', this.$db.collection('MasterAgents'))
+        .then(MasterAgents => {
+          console.log(MasterAgents, 'MasterAgents')
+        })
+        this.$binding('agents', this.$db.collection('Agents'))
+        .then(Agents => {
+          console.log(Agents, 'Agents')
+        })
     },
     methods:{
         async checkWalletBalance(){
@@ -140,6 +172,27 @@ export default {
         },
         isWithin7Days(lastTransactionDay){
             return getDateDiff(new Date(),new Date(lastTransactionDay),'days') > 7
+        }
+    },
+    computed:{
+        returnMyMasterAgent(){
+            let MAKey = this.agentObj.masterAgentKey
+            let MAgent = this.$lodash.filter(this.MasterAgents, p => {
+                    return p['.key'] === MAKey
+                })
+            let sender = {...MAgent}
+                console.log(sender, 'MAKEY')
+                return sender
+        },
+        sumMTD(){   
+            let thisMonth = this.$lodash.filter(this.commsObj, p => {
+                    return p.timestamp === date.formatDate(new Date(), 'MM')
+                })
+            let sum = this.$lodash.sumBy(thisMonth, a => { 
+                return parseInt(a.amount)
+                })
+            console.log(sum, 'sum')
+            return sum
         }
     }
 }
