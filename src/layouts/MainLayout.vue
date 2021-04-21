@@ -278,6 +278,7 @@ export default {
   mounted(){
         let user = this.$store.getters['useraccount/isAuthenticated']
         console.log(user,'user')
+        console.log(user.uid)
         this.$binding("walletObj", this.$db.collection("Wallet").doc(user.uid))
         .then((wallet) => {
             console.log(wallet,'wallet') // => __ob__: Observer
