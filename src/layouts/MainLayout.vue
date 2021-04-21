@@ -268,7 +268,6 @@ export default {
   components: { EssentialLink },
   data () {
     return {
-
       dialog: false,
       leftDrawerOpen: false,
       essentialLinks: linksData,
