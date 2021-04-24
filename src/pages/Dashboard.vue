@@ -5,7 +5,7 @@
         <q-list>
             <q-item class="text-black bg-primary q-pa-md">
                 <q-item-section class="text-h6">
-                    <q-item-label>₱ {{walletObj.commissionBalance === undefined || walletObj.commissionBalance === null ? 0 : walletObj.commissionBalance}}</q-item-label>
+                    <q-item-label>₱ {{walletObj.commisionBalance === undefined || walletObj.commisionBalance === null ? 0 : walletObj.commisionBalance}}</q-item-label>
                     <q-item-label caption lines="2">Commission<br> Balance</q-item-label>
                 </q-item-section>
                 <q-item-section class="text-h6">

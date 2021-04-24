@@ -5,33 +5,45 @@
             <div class="text-white">Click to show details.</div>
         <!-- HISTORY -->
         <div class="q-mt-md">
-            <q-list class="text-white" separator bordered>
-                <q-item clickable v-ripple class="q-py-md" v-for="n in 9" :key="n" @click="infoDialog = true">
+              <q-list class="text-white" separator bordered>
+                <q-item clickable v-ripple class="q-py-md" v-for="(p, index) in this.getData" :key="index" @click="openData(p)">
                     <q-item-section top avatar>
-                        <q-avatar color="dark" text-color="positive" icon="check" v-if="n % 2 == 0" />
+                        <q-avatar color="dark" text-color="positive" icon="check" v-if="p.status == true" />
                         <q-avatar color="dark" text-color="negative" icon="close" v-else/>
                     </q-item-section>
                     <q-item-section>
                         <q-item-label class="text-secondary" caption >Credits</q-item-label>
-                        <q-item-label class="text-h6">100{{n}}.0{{n}} </q-item-label>
+                        <q-item-label class="text-h6">₱&nbsp;{{p.amount}} </q-item-label>
                     </q-item-section>
                     <q-item-section side top>
-                        <q-item-label class="text-secondary" caption>{{n+1}} days ago</q-item-label>
+                        <q-item-label class="text-secondary" caption>{{p.timestamp.toDate()}}</q-item-label>
                     </q-item-section>
                 </q-item>
             </q-list>
+            <div class="q-pa-lg flex flex-center">
+                <q-pagination
+                    v-model="page"
+                    :min="currentPage"
+                    :max="Math.ceil(this.orderByComms.length/totalPages)"
+                    direction-links
+                    unelevated
+                    color="black"
+                    active-color="yellow"
+                    active-text-color="black"
+                />
+            </div>
             <br><br><br>
         </div>
       </div>
 
       <q-dialog v-model="infoDialog" persistent>
-          <q-card class="full-width">
+          <q-card class="full-width bg-dark text-white">
               <q-card-section class="row items-center">
-                  <span class="q-ml-sm col-12">Status: Approved</span>
-                  <span class="q-ml-sm col-12">Amount: 109.99</span>
-                  <span class="q-ml-sm col-12">Submitted: 12:25AM Mar 24,2021</span>
-                  <span class="q-ml-sm col-12">Notes: Credit To Play</span>
-                  <span class="q-ml-sm col-12">Approved: 12:30AM Mar 24,2021</span>
+                  <span class="q-ml-sm col-12">Status: {{this.status == true ? 'Approved' : 'Pending'}}</span>
+                  <span class="q-ml-sm col-12">Amount: {{this.amount}}</span>
+                  <span class="q-ml-sm col-12">Submitted: {{this.dateTime}}</span>
+                  <span class="q-ml-sm col-12">Notes: {{this.notes}}</span>
+                  <span class="q-ml-sm col-12">Approved: {{this.dateApprove}}</span>
               </q-card-section>
               <q-card-actions align="right">
                   <q-btn label="close" color="dark" v-close-popup />
@@ -44,9 +56,48 @@
 export default {
     data(){
         return{
+            dateApprove: new Date(),
+            notes: '',
+            dateTime: new Date(),
+            amount: 0,
+            status: false,
+            page: 1,
+            currentPage:1,
+            nextPage: null,
+            totalPages:10,
+            ConvertionObj: null,
             infoDialog: false,
             infoSelected: null
         }
+    },
+    methods: {
+        openData(data){
+            this.dateApprove = data.approveDate.toDate() == undefined || data.approveDate.toDate() < new Date ? 'Pending' : data.approveDate.toDate()
+            this.notes = data.note
+            this.dateTime = data.timestamp.toDate()
+            this.amount = data.amount
+            this.status = data.status
+            this.infoDialog = true
+        }
+    },
+    computed:{
+        getData(){
+			return 	this.orderByComms.slice((this.page-1)*this.totalPages,(this.page-1)*this.totalPages+this.totalPages)
+        },
+        orderByComms(){
+            let orderByP = this.$lodash.orderBy(this.ConvertionObj, ['timestamp'], ['desc']);
+            return orderByP
+        }
+    },
+    mounted(){
+        let user = this.$store.getters['useraccount/isAuthenticated']
+        console.log(user,'user')
+        this.$binding("ConvertionObj", this.$db.collection("AgentConvertion").where("agentKey", "==", user.uid))
+        .then((agent) => {
+            console.log(agent,'agent') // => __ob__: Observer
+        }).catch(err => {
+            console.error(err)
+        })
     }
 }
 </script>

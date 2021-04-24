@@ -87,6 +87,14 @@
             <q-item-label class="text-weight-bold">Convert</q-item-label>
           </q-item-section>
         </q-item>
+        <q-item clickable v-ripple to="/commission-history" active-class="text-black bg-primary">
+          <q-item-section avatar>
+            <q-avatar color="grey-1" text-color="dark" icon="mdi-currency-php" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label class="text-weight-bold">Commission History</q-item-label>
+          </q-item-section>
+        </q-item>
         <q-item clickable v-ripple to="/convert-requests" active-class="text-black bg-primary">
           <q-item-section avatar>
             <q-avatar color="grey-1" text-color="dark" icon="list_alt" />
