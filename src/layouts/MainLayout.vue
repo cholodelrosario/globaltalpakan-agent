@@ -28,8 +28,8 @@
       <q-list>
         <q-item class="text-white bg-dark q-pt-xl">
           <q-item-section>
-            <q-item-label class="text-h6">NAME</q-item-label>
-            <q-item-label overline class="text-white">09654767706</q-item-label>
+            <q-item-label class="text-h6">{{user.account.accountName}}</q-item-label>
+            <q-item-label overline class="text-white">{{user.account.accountPhone}}</q-item-label>
           </q-item-section>
         </q-item>
         <q-item clickable v-ripple to="/agent" active-class="text-black bg-primary">
@@ -85,6 +85,14 @@
           </q-item-section>
           <q-item-section>
             <q-item-label class="text-weight-bold">Convert</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item clickable v-ripple to="/commission-history" active-class="text-black bg-primary">
+          <q-item-section avatar>
+            <q-avatar color="grey-1" text-color="dark" icon="mdi-currency-php" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label class="text-weight-bold">Commission History</q-item-label>
           </q-item-section>
         </q-item>
         <q-item clickable v-ripple to="/convert-requests" active-class="text-black bg-primary">
@@ -268,6 +276,7 @@ export default {
   components: { EssentialLink },
   data () {
     return {
+      user: this.$store.getters['useraccount/isAuthenticated'],
       dialog: false,
       leftDrawerOpen: false,
       essentialLinks: linksData,

@@ -138,7 +138,8 @@ export default {
             let currentCredits = credits[0].creditsAmount
             let total = parseFloat(currentCredits) + parseFloat(this.amount)
             var addCreditsBago = {
-                creditsAmount: total
+                creditsAmount: total,
+                commisionBalance: this.walletObj.commisionBalance = undefined ? 0 : this.walletObj.commisionBalance
             }
             console.log(addCreditsBago, 'adddddd')
             if(this.amount === '' || this.amount === 0){
@@ -164,7 +165,8 @@ export default {
                     let currentUserCredits = usercredits[0].creditsAmount
                     let usertotal = parseFloat(currentUserCredits) - parseFloat(this.amount)
                     var userCreditsBago = {
-                        creditsAmount: usertotal
+                        creditsAmount: usertotal,
+                        commisionBalance: this.walletObj.commisionBalance = undefined ? 0 : this.walletObj.commisionBalance
                     }
                     console.log(userCreditsBago, 'bago')
                 this.$db.collection('Wallet').doc(user.uid).set(userCreditsBago)

@@ -15,6 +15,7 @@ const routes = [
       { path: '/stats', component: () => import('pages/StatsPage.vue') },
       { path: '/transactions', component: () => import('pages/Transactions.vue') },
       { path: '/all-withdrawals', component: () => import('pages/WithdrawalsAll.vue') },
+      { path: '/commission-history', component: () => import('pages/CommissionHistory.vue') },
     ]
   },
   {
