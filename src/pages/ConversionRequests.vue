@@ -72,7 +72,7 @@ export default {
     },
     methods: {
         openData(data){
-            this.dateApprove = data.approveDate.toDate() == undefined || data.approveDate.toDate() < new Date ? 'Pending' : data.approveDate.toDate()
+            this.dateApprove = data.status == false ? 'Pending' : data.approveDate.toDate()
             this.notes = data.note
             this.dateTime = data.timestamp.toDate()
             this.amount = data.amount

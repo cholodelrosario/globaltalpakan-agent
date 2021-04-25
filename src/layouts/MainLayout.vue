@@ -28,8 +28,8 @@
       <q-list>
         <q-item class="text-white bg-dark q-pt-xl">
           <q-item-section>
-            <q-item-label class="text-h6">NAME</q-item-label>
-            <q-item-label overline class="text-white">09654767706</q-item-label>
+            <q-item-label class="text-h6">{{user.account.accountName}}</q-item-label>
+            <q-item-label overline class="text-white">{{user.account.accountPhone}}</q-item-label>
           </q-item-section>
         </q-item>
         <q-item clickable v-ripple to="/agent" active-class="text-black bg-primary">
@@ -276,6 +276,7 @@ export default {
   components: { EssentialLink },
   data () {
     return {
+      user: this.$store.getters['useraccount/isAuthenticated'],
       dialog: false,
       leftDrawerOpen: false,
       essentialLinks: linksData,

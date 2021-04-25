@@ -22,6 +22,14 @@
                                 <q-item-label class="text-secondary" caption >Commission</q-item-label>
                                 <q-item-label class="text-h6">₱ {{p.amount}} </q-item-label>
                             </q-item-section>
+                            <q-item-section>
+                                <q-item-label class="text-secondary" caption >Player Name/Phone</q-item-label>
+                                <q-item-label class="text-overline">{{p.PlayerNamePhone}} </q-item-label>
+                            </q-item-section>
+                            <q-item-section>
+                                <q-item-label class="text-secondary" caption >Game</q-item-label>
+                                <q-item-label class="overline">{{p.gameSchedule.gameCategory}} </q-item-label>
+                            </q-item-section>
                             <q-item-section side top>
                                 <q-item-label class="text-secondary" caption>{{p.timestamp.toDate()}}</q-item-label>
                             </q-item-section>
