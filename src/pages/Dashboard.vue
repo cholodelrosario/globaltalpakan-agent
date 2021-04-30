@@ -188,7 +188,7 @@ export default {
             let thisMonth = this.$lodash.filter(this.commsObj, p => {
                     return p.timestamp === date.formatDate(new Date(), 'MM')
                 })
-            let sum = this.$lodash.sumBy(thisMonth, a => { 
+            let sum = this.$lodash.sumBy(this.commsObj, a => { 
                 return parseInt(a.amount)
                 })
             console.log(sum, 'sum')
