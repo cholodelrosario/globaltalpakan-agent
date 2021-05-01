@@ -15,7 +15,7 @@
           
         </q-toolbar-title>
 
-        <div class="text-white" v-show="walletObj">₱ {{walletObj ? walletObj.creditsAmount : 0}} <q-icon name="account_balance_wallet"  size="sm"/></div>
+        <div class="text-white" >₱ {{walletObj.creditsAmount ? walletObj.creditsAmount : 0}} <q-icon name="account_balance_wallet"  size="sm"/></div>
       </q-toolbar>
     </q-header>
 
