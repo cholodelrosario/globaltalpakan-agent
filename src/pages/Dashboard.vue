@@ -45,18 +45,21 @@
                     <q-item-section>
                         <q-item-label class="text-grey" caption lines="2">Account Number / Name</q-item-label>
                     </q-item-section>
+                    <q-item-section>
+                        <q-item-label class="text-right text-secondary" caption>MTD Comm</q-item-label>
+                    </q-item-section>
                     <q-item-section side>
                         &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;  &nbsp;  &nbsp;  &nbsp;  
                     </q-item-section>
                 </q-item>
-                <q-item clickable v-ripple class="q-py-md" v-for="n in Downlines" :key="n['.key']">
+                <q-item clickable v-ripple class="q-py-md" v-for="n in newDownlines" :key="n['.key']">
                         <q-item-section>
                             <q-icon name="lock" color="grey" v-show="n.lastTransaction && isWithin7Days(n.lastTransaction)" />
                             <q-icon name="lock_open" color="grey" v-show="n.lastTransaction && isWithin7Days(n.lastTransaction) == false" />
                             {{n.accountPhone}} / {{n.accountName}}
                         </q-item-section>
                         <q-item-section>
-                            <q-item-label class="text-right text-secondary" caption></q-item-label>
+                            <q-item-label class="text-right text-secondary" caption>{{n.mtd}}</q-item-label>
                         </q-item-section>
                     <q-item-section side>
                         <q-btn color="primary" icon="send" class="text-black" size="md" @click="confirmTransaction(n)"  />
@@ -75,6 +78,7 @@ const { getDateDiff } = date
 export default {
     data(){
         return {
+            playerMTD: null,
             agents: [],
             MasterAgents: [],
             walletObj: null,
@@ -126,8 +130,28 @@ export default {
         .then(Agents => {
           console.log(Agents, 'Agents')
         })
+        this.$binding("playerMTD", this.$db.collection("PlayerAgentMTD").where("agentID", "==", user.uid))
+        .then((playerMTD) => {
+            console.log(playerMTD,'playerMTD') // => __ob__: Observer
+        }).catch(err => {
+            console.error(err)
+        })
     },
     methods:{
+        getMTD(key){
+            // let date = this.$moment(new Date()).format('MM-YYYY-')
+            // let filterKey = date + key
+            var docRef = null
+            var data = null
+            docRef = this.playerMTD.filter(a=>{
+                return a.playerID == key
+            })[0]
+            data = {...docRef}
+            delete data['.key']
+            console.log(data, 'MTTDDD')
+            return data.MTDCommission
+
+        },
         async checkWalletBalance(){
             let user = this.$store.getters['useraccount/isAuthenticated']
             await this.$binding("Wallet", this.$db.collection("Wallet").doc(user.uid))
@@ -175,6 +199,28 @@ export default {
         }
     },
     computed:{
+        newDownlines(){
+            let map = this.$lodash.map(this.Downlines,a=>{
+                let MTDs = this.getMTD(a['.key'])
+                return {
+                        ['.key']: a['.key'],
+                        accountID: a['.key'],
+                        accountName: a.accountName,
+                        accountPhone: a.accountPhone,
+                        mtd: MTDs === undefined || MTDs === null ? 0 : MTDs,
+                        agentKey: a.agentKey,
+                        masterAgentKey: a.masterAgentKey,
+                        lastTransaction: a.lastTransaction
+                    }
+            })
+            console.log(map, 'mapping')
+            let user = this.$store.getters['useraccount/isAuthenticated']
+            let downliness = map.filter(p => {
+                return p.agentKey === user.uid 
+            })
+            let orderByP = this.$lodash.orderBy(downliness, ['mtd'], ['desc']);
+            return orderByP
+        },
         returnMyMasterAgent(){
             let MAKey = this.agentObj.masterAgentKey
             let MAgent = this.$lodash.filter(this.MasterAgents, p => {

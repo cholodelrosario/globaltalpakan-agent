@@ -28,8 +28,8 @@
       <q-list>
         <q-item class="text-white bg-dark q-pt-xl">
           <q-item-section>
-            <q-item-label class="text-h6">{{user.account.accountName}}</q-item-label>
-            <q-item-label overline class="text-white">{{user.account.accountPhone}}</q-item-label>
+            <q-item-label class="text-h6">{{this.agentObj.accountName}}</q-item-label>
+            <q-item-label overline class="text-white">{{this.agentObj.accountPhone}}</q-item-label>
           </q-item-section>
         </q-item>
         <q-item clickable v-ripple to="/agent" active-class="text-black bg-primary">
@@ -280,7 +280,8 @@ export default {
       dialog: false,
       leftDrawerOpen: false,
       essentialLinks: linksData,
-      walletObj: null
+      walletObj: null,
+      agentObj: null,
     }
   },
   mounted(){
@@ -293,6 +294,12 @@ export default {
         }).catch(err => {
             console.error(err)
         })     
+        this.$binding("agentObj", this.$db.collection("Agents").doc(user.uid))
+        .then((agentObj) => {
+            console.log(agentObj,'agentObj') // => __ob__: Observer
+        }).catch(err => {
+            console.error(err)
+        })
   }
 }
 </script>

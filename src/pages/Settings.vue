@@ -4,7 +4,7 @@
           <h5 class="text-primary text-weight-bolder q-mt-none">Settings</h5>
           <b class="text-h6 text-white">Name</b><br>
           <q-input outlined dark v-model="name" :label="this.agentObj.accountName" />
-          <q-btn class="q-mt-md q-pt-sm q-pb-sm full-width" color="red" label="Submit" />
+          <q-btn class="q-mt-md q-pt-sm q-pb-sm full-width" @click="updateName()" color="red" label="Submit" />
           <br><br><br>
           <h6 class="text-white flex flex-center q-ma-none">Transactions</h6>
           <q-btn class="q-mt-md q-pt-sm q-pb-sm full-width" color="red" label="View History" @click="$router.push('/transactions')" />
@@ -43,7 +43,42 @@ export default {
         }
     },
     methods: {
-        
+        async updateName(){
+            if(this.name === ''){
+                    this.$q.dialog({
+                        title: 'Please Enter Name',
+                        message: 'Please Enter Your New Name??',
+                        ok: 'Yes',
+                        cancel: 'Cancel'
+                    })
+            }else{
+                this.$q.dialog({
+                    title: '',
+                    message: 'Are you sure you want to change your name??',
+                    ok: 'Yes',
+                    cancel: 'Cancel'
+                }).onOk(() => {
+                    try {
+                        let playerID = this.agentObj['.key']
+                        let firstName = this.name
+                        const response = firebaseDb.collection('Agents').doc(playerID).update({ accountName: firstName })
+                        if(response) { console.log('%c SUCCESS_LAST_TRANSACTION','background: #222; color: #bada55') }
+                    } catch (error) {
+                        console.log(error,'error')
+                        console.log('%c ERROR_LAST_TRANSACTION','background: #D50000; color: #fff')
+                    }
+                    this.$q.notify({
+                        title: '',
+                        message: 'Name Change Success!!',
+                        icon: 'mdi-update',
+                        color: 'positive',
+                        textColor: 'white',
+                        position: 'center'
+                    })
+                    this.name = ''
+                })
+            }
+        }  
     },
     computed: {
         returnUser(){
