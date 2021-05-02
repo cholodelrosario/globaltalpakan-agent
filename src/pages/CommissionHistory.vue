@@ -3,8 +3,8 @@
         <div class="full-width">
             <div class="row">
                 <div><h5 class="text-primary text-weight-bolder q-mt-none">COMMISSION HISTORY</h5></div>
-                <q-space></q-space>
-                <div class="text-white"><q-icon name="account_balance_wallet"  size="sm"/> CREDITS ₱ {{walletObj ? walletObj.creditsAmount : 0}}</div>
+                <!-- <q-space></q-space>
+                <div class="text-white"><q-icon name="account_balance_wallet"  size="sm"/> CREDITS ₱ {{walletObj ? walletObj.creditsAmount : 0}}</div> -->
             </div>
 
             <!-- <div class="row">
@@ -13,8 +13,20 @@
             <!-- HISTORY -->
                 <div class="q-mt-lg q-pt-sm">
                     <h6 class="text-secondary flex flex-center q-ma-none">COMMISSION HISTORY</h6>
-                    <q-list class="text-white" separator bordered>
-                        <q-item clickable v-ripple class="q-py-md" v-for="(p, index) in this.getData" :key="index">
+                    <q-list v-for="(p, index) in this.getData" :key="index" class="text-white" separator bordered>
+                        <q-item>
+                            <q-item-section caption top>
+                                <q-item-label overline class="text-white"><q-avatar color="dark" size="sm" text-color="positive" icon="check"/> &nbsp; P&nbsp;{{p.amount}}</q-item-label>
+                                <q-item-label overline class="text-white">{{p.PlayerNamePhone}}</q-item-label>
+                                <q-item-label overline class="text-white">{{p.gameSchedule.gameCategory}}</q-item-label>
+                            </q-item-section>
+
+                            <q-item-section>
+                                <q-item-label overline class="text-white">{{p.timestamp.toDate('MM-DD-YYYY')}}</q-item-label>
+                            </q-item-section>
+                        </q-item>
+
+                        <!-- <q-item clickable v-ripple class="q-py-md">
                             <q-item-section top avatar>
                                 <q-avatar color="dark" text-color="positive" icon="check"/>
                             </q-item-section>
@@ -33,7 +45,7 @@
                             <q-item-section side top>
                                 <q-item-label class="text-secondary" caption>{{p.timestamp.toDate()}}</q-item-label>
                             </q-item-section>
-                        </q-item>
+                        </q-item> -->
                     </q-list>  
                     <div class="q-pa-lg flex flex-center">
                         <q-pagination

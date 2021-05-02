@@ -9,13 +9,13 @@
                     <q-item-label caption lines="2">Commission<br> Balance</q-item-label>
                 </q-item-section>
                 <q-item-section class="text-h6">
-                    <q-item-label>₱ {{sumMTD}}</q-item-label>
+                    <q-item-label>₱ {{this.dashBoardMtd === null || this.dashBoardMtd === undefined ? 0 : this.dashBoardMtd}}</q-item-label>
                     <q-item-label caption lines="2">Commission <br>(Month to Date)</q-item-label>
                 </q-item-section>
             </q-item>
             <q-item dark class="">
                 <q-item-section>
-                    <q-item-label caption lines="2">Commision computed: 02:22AM </q-item-label>
+                    <q-item-label caption lines="2">Commision computed: {{this.computedAT === undefined ? 'No Commission Yet' : this.computedAT.toDate() }} </q-item-label>
                 </q-item-section>
             </q-item>
             <q-item dark class="bg-grey-8 q-pa-md">
@@ -136,6 +136,10 @@ export default {
         }).catch(err => {
             console.error(err)
         })
+        this.$binding('TotalMonthYearMTD', this.$db.collection('TotalMonthYearMTD'))
+        .then(TotalMonthYearMTD => {
+          console.log(TotalMonthYearMTD, 'TotalMonthYearMTD')
+        })
     },
     methods:{
         getMTD(key){
@@ -199,6 +203,21 @@ export default {
         }
     },
     computed:{
+        dashBoardMtd(){
+            let user = this.$store.getters['useraccount/isAuthenticated']
+            let date = this.$moment(new Date()).format('MM-YYYY-')
+            let key = user.uid
+            let filterKey = date + key
+            var docRef = null
+            var data = null
+            docRef = this.$lodash.filter(this.TotalMonthYearMTD, a=>{
+                return a['.key'] == filterKey
+            })[0]
+            data = {...docRef}
+            delete data['.key']
+            return data.MTD
+        
+        },
         newDownlines(){
             let map = this.$lodash.map(this.Downlines,a=>{
                 let MTDs = this.getMTD(a['.key'])
@@ -229,6 +248,16 @@ export default {
             let sender = {...MAgent}
                 console.log(sender, 'MAKEY')
                 return sender
+        },
+        computedAT(){
+            let date = this.$moment(new Date()).format('MM-YYYY-')
+            let user = this.$store.getters['useraccount/isAuthenticated']
+            var compute = this.$lodash.filter(this.TotalMonthYearMTD, a=>{
+                return a['.key'] == date + user.uid
+            })[0]
+            var data = {...compute}
+            delete data['.key']
+            return data.lastUpdated
         },
         sumMTD(){   
             let thisMonth = this.$lodash.filter(this.commsObj, p => {
