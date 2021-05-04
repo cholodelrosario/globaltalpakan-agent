@@ -66,7 +66,7 @@ export default {
             let index = this.$lodash.findIndex(this.DashboardUsers, a=>{
                 return a.mobile == this.mobile
             })
-            console.log(index,'index');
+            // console.log(index,'index');
             if(index !== -1){
                 this.$store.dispatch('useraccount/loginUser',{email: this.mobile, password: this.password})
             } else {
@@ -91,7 +91,7 @@ export default {
             // let checkActive = this.$lodash.findIndex(this.Agents,a=>{
             //     return a.accountPhone.replace(/[^A-Z0-9]+/ig, "") == this.mobile && a.activated == true
             // })
-            console.log(checkActive)
+            // console.log(checkActive)
             if(checkActive == -1){
                     self.$q.dialog({
                     title: `This account has no access to the system. Your account may be inactive. Please contact admin for assistance.`,
@@ -106,9 +106,9 @@ export default {
             } else {
                 firebaseAuth.signInWithEmailAndPassword(emailAdd, this.password)
                 .then(result => {
-                console.log(result, 'result')
+                // console.log(result, 'result')
                 let user = result.user
-                console.log(user,'user')
+                // console.log(user,'user')
                 //check if paid na
 
                 let findUser = this.userObj.length > 0 ? this.userObj[0] : null
@@ -126,7 +126,7 @@ export default {
                     account: findUser,
                     inviteLink: findUser.inviteLink
                 }
-                console.log(store)
+                // console.log(store)
         
                 self.$store.commit('useraccount/setDashboardUser', store)
                 // if(findUser.changePass == true){
@@ -134,7 +134,7 @@ export default {
                 // }
                 firebaseAuth.setPersistence(this.$firebase.auth.Auth.Persistence.LOCAL)
                     .then(function() {
-                        console.log('setPersistence!')
+                        // console.log('setPersistence!')
                         // Existing and future Auth states are now persisted in the current
                         // session only. Closing the window would clear any existing state even
                         // if a user forgets to sign out.
@@ -147,13 +147,13 @@ export default {
                         
                         var errorCode = error.code;
                         var errorMessage = error.message;
-                        console.log(errorMessage)
+                        // console.log(errorMessage)
                     });
                     self.$router.push('/agent')
                     
                 })
                 .catch(err =>{
-                    console.log(err, 'error')
+                    // console.log(err, 'error')
                     self.$q.dialog({
                         title: `${err.message}`,
                         type: 'negative',
@@ -173,9 +173,9 @@ export default {
         async checkIfActive(accountPhone){
             await this.$binding("userObj", this.$db.collection("Agents").where("accountPhone", "==", accountPhone).where("activated", "==", true))
             .then((agent) => {
-                console.log(agent,'agent') // => __ob__: Observer
+                // console.log(agent,'agent') // => __ob__: Observer
             }).catch(err => {
-                console.error(err)
+                // console.error(err)
             })                    
         }
     }  

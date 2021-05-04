@@ -90,22 +90,22 @@ export default {
     },
     mounted () {
         let user = this.$store.getters['useraccount/isAuthenticated']
-        console.log(user,'user')
+        // console.log(user,'user')
         this.$binding("walletObj", this.$db.collection("Wallet").doc(user.uid))
         .then((wallet) => {
-            console.log(wallet,'wallet') // => __ob__: Observer
+            // console.log(wallet,'wallet') // => __ob__: Observer
         }).catch(err => {
-            console.error(err)
+            // console.error(err)
         })
         this.$binding("commissionObj", this.$db.collection("CommissionHistory").where("accountID", "==", user.uid).limit(20))
         .then((comms) => {
-            console.log(comms,'comms') // => __ob__: Observer
+            // console.log(comms,'comms') // => __ob__: Observer
         }).catch(err => {
-            console.error(err)
+            // console.error(err)
         })
         this.$binding('Wallet', this.$db.collection('Wallet'))
         .then(Wallet => {
-          console.log(Wallet, 'Wallet')
+        //   console.log(Wallet, 'Wallet')
         })
     }
 }

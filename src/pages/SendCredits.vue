@@ -81,18 +81,18 @@ export default {
     },
     mounted(){
         let user = this.$store.getters['useraccount/isAuthenticated']
-        console.log(user,'user')
+        // console.log(user,'user')
         this.$binding("Downlines", this.$db.collection("Players").where("agentKey", "==", user.uid))
         .then((downlines) => {
-            console.log(downlines,'downlines') // => __ob__: Observer
+            // console.log(downlines,'downlines') // => __ob__: Observer
         }).catch(err => {
-            console.error(err)
+            // console.error(err)
         })  
         this.$binding("walletObj", this.$db.collection("Wallet").doc(user.uid))
         .then((wallet) => {
-            console.log(wallet,'wallet') // => __ob__: Observer
+            // console.log(wallet,'wallet') // => __ob__: Observer
         }).catch(err => {
-            console.error(err)
+            // console.error(err)
         })  
     },
     computed: {
@@ -144,12 +144,12 @@ export default {
 
             update(() => {
                 const needle = val.toLowerCase()
-                console.log(needle)
+                // console.log(needle)
                 this.options = this.returnMapDownlines.filter(v => v.label.toLowerCase().indexOf(needle) > -1)
             })
         },
         selectDownline(downline){
-            console.log(downline)
+            // console.log(downline)
             this.downline = this.returnMapDownlines.filter(a=>{
                 return a.value.accountPhone == downline.accountPhone
             })[0]            
@@ -161,16 +161,16 @@ export default {
             this.prepareScreen = false
         },
         async confirmTransaction(){
-            console.log(this.downline)
+            // console.log(this.downline)
             let downline = this.selectedDownline
             await this.$store.dispatch('wallet/creditWallet',{to: downline, credits: this.sendAmount, downlineID: downline['.key']})
             this.clearAll()
         },
         clearAll(){
             let self = this
-            console.log('here')
+            // console.log('here')
             setTimeout(function(){
-                console.log('here inside')
+                // console.log('here inside')
                 self.downline = null
                 self.sendAmount = 0
                 self.proceedScreen = false

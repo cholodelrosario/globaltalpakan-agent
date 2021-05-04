@@ -97,44 +97,44 @@ export default {
     },
     mounted(){
         let user = this.$store.getters['useraccount/isAuthenticated']
-        console.log(user,'user')
+        // console.log(user,'user')
         this.$binding("Downlines", this.$db.collection("Players").where("agentKey", "==", user.uid))
         .then((downlines) => {
-            console.log(downlines,'downlines') // => __ob__: Observer
+            // console.log(downlines,'downlines') // => __ob__: Observer
         }).catch(err => {
-            console.error(err)
+            // console.error(err)
         })
         this.$binding("agentObj", this.$db.collection("Agents").doc(user.uid))
         .then((agentObj) => {
-            console.log(agentObj,'agentObj') // => __ob__: Observer
+            // console.log(agentObj,'agentObj') // => __ob__: Observer
         }).catch(err => {
-            console.error(err)
+            // console.error(err)
         })
         this.$binding("walletObj", this.$db.collection("Wallet").doc(user.uid))
         .then((walletObj) => {
-            console.log(walletObj,'walletObj') // => __ob__: Observer
+            // console.log(walletObj,'walletObj') // => __ob__: Observer
         }).catch(err => {
-            console.error(err)
+            // console.error(err)
         })
         this.$binding("commsObj", this.$db.collection("CommissionHistory").where("accountID", "==", user.uid))
         .then((commsObj) => {
-            console.log(commsObj,'commsObj') // => __ob__: Observer
+            // console.log(commsObj,'commsObj') // => __ob__: Observer
         }).catch(err => {
-            console.error(err)
+            // console.error(err)
         })
         this.$binding('MasterAgents', this.$db.collection('MasterAgents'))
         .then(MasterAgents => {
-          console.log(MasterAgents, 'MasterAgents')
+        //   console.log(MasterAgents, 'MasterAgents')
         })
         this.$binding('agents', this.$db.collection('Agents'))
         .then(Agents => {
-          console.log(Agents, 'Agents')
+        //   console.log(Agents, 'Agents')
         })
         this.$binding("playerMTD", this.$db.collection("PlayerAgentMTD").where("agentID", "==", user.uid))
         .then((playerMTD) => {
-            console.log(playerMTD,'playerMTD') // => __ob__: Observer
+            // console.log(playerMTD,'playerMTD') // => __ob__: Observer
         }).catch(err => {
-            console.error(err)
+            // console.error(err)
         })
     },
     methods:{
@@ -148,7 +148,7 @@ export default {
             })[0]
             data = {...docRef}
             delete data['.key']
-            console.log(data, 'MTTDDD')
+            // console.log(data, 'MTTDDD')
             return data.MTDCommission
 
         },
@@ -156,15 +156,15 @@ export default {
             let user = this.$store.getters['useraccount/isAuthenticated']
             await this.$binding("Wallet", this.$db.collection("Wallet").doc(user.uid))
             .then((wallet) => {
-                console.log(wallet,'wallet') // => __ob__: Observer
+                // console.log(wallet,'wallet') // => __ob__: Observer
             }).catch(err => {
-                console.error(err)
+                // console.error(err)
             })             
         },
         async confirmTransaction(downline){
             await this.checkWalletBalance()
             let balance = this.Wallet.creditsAmount
-            console.log(balance,'balance')
+            // console.log(balance,'balance')
             this.$q.dialog({
                 dark: true,
                 title: 'Enter Amount to Send',
@@ -179,8 +179,8 @@ export default {
                 },
                 persistent: true
             }).onOk(async (data) =>{
-                console.log(data,'credits')
-                console.log(downline,'downline')
+                // console.log(data,'credits')
+                // console.log(downline,'downline')
 
                 if(data > balance){
                     this.$q.dialog({
@@ -213,7 +213,7 @@ export default {
                         lastTransaction: a.lastTransaction
                     }
             })
-            console.log(map, 'mapping')
+            // console.log(map, 'mapping')
             let user = this.$store.getters['useraccount/isAuthenticated']
             let downliness = map.filter(p => {
                 return p.agentKey === user.uid 
@@ -227,7 +227,7 @@ export default {
                     return p['.key'] === MAKey
                 })
             let sender = {...MAgent}
-                console.log(sender, 'MAKEY')
+                // console.log(sender, 'MAKEY')
                 return sender
         },
         sumMTD(){   
@@ -237,7 +237,7 @@ export default {
             let sum = this.$lodash.sumBy(this.commsObj, a => { 
                 return parseInt(a.amount)
                 })
-            console.log(sum, 'sum')
+            // console.log(sum, 'sum')
             return sum
         }
     }

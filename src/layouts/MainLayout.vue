@@ -126,7 +126,7 @@
             <q-item-label class="text-weight-bold">Movements</q-item-label>
           </q-item-section>
         </q-item>
-        <q-separator inset  />
+        <!-- <q-separator inset  />
         <q-item-label
           header
           class="text-grey-8"
@@ -140,7 +140,7 @@
           <q-item-section>
             <q-item-label class="text-weight-bold">Cockpit w/ drawals</q-item-label>
           </q-item-section>
-        </q-item>
+        </q-item> -->
         <q-separator inset  />
         <q-item-label
           header
@@ -156,7 +156,7 @@
             <q-item-label class="text-weight-bold">Settings</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item clickable v-ripple to="/" active-class="text-black bg-primary">
+        <q-item clickable v-ripple  @click="logoutUser" active-class="text-black bg-primary">
           <q-item-section avatar>
             <q-avatar color="grey-1" text-color="dark" icon="logout" />
           </q-item-section>
@@ -300,6 +300,12 @@ export default {
         }).catch(err => {
             console.error(err)
         })
+  },
+  methods:{
+    logoutUser(){
+      console.log('clicked')
+        this.$store.dispatch('useraccount/logoutUser')
+    }
   }
 }
 </script>

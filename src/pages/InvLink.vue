@@ -37,12 +37,12 @@ export default {
     },
     methods:{
         clipboardSuccessHandler ({ value, event }) {
-            console.log('success', value)
+            // console.log('success', value)
             this.$clipboard(value)
         },
     
         clipboardErrorHandler ({ value, event }) {
-        console.log('error', value)
+        // console.log('error', value)
         }
     }
 }

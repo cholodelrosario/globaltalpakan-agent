@@ -134,14 +134,14 @@ export default {
             let credits = this.$lodash.filter(this.Wallet, m => {
                     return m['.key'] == recieverID
             })
-            console.log(credits, 'credits')
+            // console.log(credits, 'credits')
             let currentCredits = credits[0].creditsAmount
             let total = parseFloat(currentCredits) + parseFloat(this.amount)
             var addCreditsBago = {
                 creditsAmount: total,
                 commisionBalance: this.walletObj.commisionBalance = undefined ? 0 : this.walletObj.commisionBalance
             }
-            console.log(addCreditsBago, 'adddddd')
+            // console.log(addCreditsBago, 'adddddd')
             if(this.amount === '' || this.amount === 0){
                 this.$q.dialog({
                     title: 'Field Required!',
@@ -161,14 +161,14 @@ export default {
                     let usercredits = this.$lodash.filter(this.Wallet, m => {
                             return m['.key'] == user.uid
                     })
-                    console.log(usercredits, 'usercredits')
+                    // console.log(usercredits, 'usercredits')
                     let currentUserCredits = usercredits[0].creditsAmount
                     let usertotal = parseFloat(currentUserCredits) - parseFloat(this.amount)
                     var userCreditsBago = {
                         creditsAmount: usertotal,
                         commisionBalance: this.walletObj.commisionBalance = undefined ? 0 : this.walletObj.commisionBalance
                     }
-                    console.log(userCreditsBago, 'bago')
+                    // console.log(userCreditsBago, 'bago')
                 this.$db.collection('Wallet').doc(user.uid).set(userCreditsBago)
                 this.recordHistory()
                 this.updateLastTransaction()
@@ -190,7 +190,7 @@ export default {
                 let receiverInfo = this.$lodash.filter(this.Players, m => {
                         return m['.key'] == receiveID
                 })
-                console.log(receiverInfo, 'receivers')
+                // console.log(receiverInfo, 'receivers')
                 let reciever = {...receiverInfo[0]}
                 let recieverID = reciever['.key']
                 delete reciever['.key']
@@ -199,28 +199,28 @@ export default {
                 let sender = {...this.agentObj}
                 delete sender['.key']
                 sender.accountID = agentID
-                console.log(reciever, 'ID')
+                // console.log(reciever, 'ID')
                 var newHistory = {
                     amount: this.amount,
                     from: sender,
                     to: reciever,
                     timestamp: new Date(),
                 }
-                console.log(newHistory, 'newHistory')
+                // console.log(newHistory, 'newHistory')
                 this.$db.collection('CreditHistory').add(newHistory)
         },
         async updateLastTransaction(){
             let user = this.$store.getters['useraccount/isAuthenticated']
             try {
                 const response = await firebaseDb.collection('Agents').doc(user.uid).update({ lastTransaction: new Date() })
-                if(response) { console.log('%c SUCCESS_LAST_TRANSACTION','background: #222; color: #bada55') }
+                // if(response) { console.log('%c SUCCESS_LAST_TRANSACTION','background: #222; color: #bada55') }
             } catch (error) {
-                console.log(error,'error')
-                console.log('%c ERROR_LAST_TRANSACTION','background: #D50000; color: #fff')
+                // console.log(error,'error')
+                // console.log('%c ERROR_LAST_TRANSACTION','background: #D50000; color: #fff')
             }      
         },
         sendDialog (task) {
-            console.log(task, 'taskk')
+            // console.log(task, 'taskk')
             this.playerID = task.to.accountID
             this.send = true
         },
@@ -256,7 +256,7 @@ export default {
                     textColor: 'white',
                     icon: 'warning'
                 })
-					console.log(err)
+					// console.log(err)
                 })
             })
 		},
@@ -272,7 +272,7 @@ export default {
             }).onOk(()=> {
             // var status = data.archive == undefined ? true : false
             data.archive = data.archive == undefined || data.archive == false ? true : false
-			console.log(data, 'data')
+			// console.log(data, 'data')
 			let key = data['.key']
             let update = {...data}
             delete update['.key']
@@ -294,7 +294,7 @@ export default {
                     textColor: 'white',
                     icon: 'warning'
                 })
-					console.log(err)
+					// console.log(err)
                 })
             })
 		},
@@ -357,42 +357,42 @@ export default {
     },
     mounted(){
         let user = this.$store.getters['useraccount/isAuthenticated']
-        console.log(user,'user')
+        // console.log(user,'user')
         this.$binding("walletObj", this.$db.collection("Wallet").doc(user.uid))
         .then((wallet) => {
-            console.log(wallet,'wallet') // => __ob__: Observer
+            // console.log(wallet,'wallet') // => __ob__: Observer
         }).catch(err => {
-            console.error(err)
+            // console.error(err)
         })
         this.$binding("agentObj", this.$db.collection("Agents").doc(user.uid))
         .then((agent) => {
-            console.log(agent,'agent') // => __ob__: Observer
+            // console.log(agent,'agent') // => __ob__: Observer
         }).catch(err => {
-            console.error(err)
+            // console.error(err)
         })
         this.$binding('CreditHistory', this.$db.collection('CreditHistory'))
         .then(CreditHistory => {
-          console.log(CreditHistory, 'CreditHistory')
+        //   console.log(CreditHistory, 'CreditHistory')
         })
         this.$binding('Agents', this.$db.collection('Agents'))
         .then(Agents => {
-          console.log(Agents, 'Agents')
+        //   console.log(Agents, 'Agents')
         })
         this.$binding('Wallet', this.$db.collection('Wallet'))
         .then(Wallet => {
-          console.log(Wallet, 'Wallet')
+        //   console.log(Wallet, 'Wallet')
         })
         this.$binding('Players', this.$db.collection('Players'))
         .then(Players => {
-          console.log(Players, 'Players')
+        //   console.log(Players, 'Players')
         })
         this.$binding('From', this.$db.collection('CreditHistory').where("from.accountID", "==", user.uid).limit(20))
         .then(From => {
-          console.log(From, 'From')
+        //   console.log(From, 'From')
         })
         this.$binding('To', this.$db.collection('CreditHistory').where("to.accountID", "==", user.uid).limit(20))
         .then(To => {
-          console.log(To, 'To')
+        //   console.log(To, 'To')
         })
     }
 }

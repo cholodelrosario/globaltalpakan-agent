@@ -191,7 +191,7 @@ export default {
             }).onOk(()=> {
             // var status = data.archive == undefined ? true : false
             data.archive = data.archive == true ? false : true
-			console.log(data, 'data')
+			// console.log(data, 'data')
 			let key = data['.key']
             let update = {...data}
             delete update['.key']
@@ -213,7 +213,7 @@ export default {
                     textColor: 'white',
                     icon: 'warning'
                 })
-					console.log(err)
+					// console.log(err)
                 })
             })
 		},
@@ -229,7 +229,7 @@ export default {
             }).onOk(()=> {
             // var status = data.archive == undefined ? true : false
             data.archive = data.archive == undefined || data.archive == false ? true : false
-			console.log(data, 'data')
+			// console.log(data, 'data')
 			let key = data['.key']
             let update = {...data}
             delete update['.key']
@@ -251,7 +251,7 @@ export default {
                     textColor: 'white',
                     icon: 'warning'
                 })
-					console.log(err)
+					// console.log(err)
                 })
             })
 		},
@@ -273,11 +273,11 @@ export default {
                 creditsAmount: total,
                 commisionBalance: this.walletObj.commisionBalance = undefined ? 0 : this.walletObj.commisionBalance
             }
-            console.log(updateCredits, 'update')
+            // console.log(updateCredits, 'update')
             this.$db.collection('Wallet').doc(agentID).set(updateCredits)
             var status = data.status == false ? true : false
             data.status = data.status == false ? true : false
-			console.log(data, 'data')
+			// console.log(data, 'data')
 			let key = data['.key']
             let update = {...data}
             delete update['.key']
@@ -299,25 +299,25 @@ export default {
                     textColor: 'white',
                     icon: 'warning'
                 })
-					console.log(err)
+					// console.log(err)
                 })
             })
 		},
         withdrawCredits(){
             let agentID = this.agentOBj['.key']
             let currentCredits = this.walletObj.creditsAmount
-            console.log(currentCredits, 'current')
+            // console.log(currentCredits, 'current')
             let total = parseFloat(currentCredits) - parseFloat(this.withdrawAmount)
             var updateCredits = {
                 creditsAmount: total,
                 commisionBalance: this.walletObj.commisionBalance = undefined ? 0 : this.walletObj.commisionBalance
             }
             let MA = this.$lodash.filter(this.MasterAgents, a => {
-                console.log(a, 'a')
+                // console.log(a, 'a')
                 return a['.key'] === this.agentOBj.masterAgentKey
             })
             let reciever = {...MA[0]}
-            console.log(reciever, 'receiver')
+            // console.log(reciever, 'receiver')
             let recieverID = reciever['.key']
             delete reciever['.key']
             reciever.accountID = recieverID
@@ -325,7 +325,7 @@ export default {
             let sender = {...this.agentOBj}
             delete sender['.key']
             sender.accountID = agentID
-            console.log(sender, 'ID')
+            // console.log(sender, 'ID')
             var sendToWithdrawals = {
                 amount: this.withdrawAmount,
                 masterAgentKey: recieverID,
@@ -336,7 +336,7 @@ export default {
                 timestamp: new Date(),
                 status: false
             }
-            console.log(sendToWithdrawals, 'sendtoWithdrawals')
+            // console.log(sendToWithdrawals, 'sendtoWithdrawals')
             if(this.withdrawAmount === '' || this.withdrawAmount < 500 || this.withdrawAmount > this.walletObj.creditsAmount || this.outlet === ''){
                 this.$q.dialog({
                     title: this.withdrawAmount === 0 ?  'Enter Amount to Withdraw?' : this.withdrawAmount < 500 ? 'Enter Right Amount' : this.withdrawAmount > this.walletObj.creditsAmount ? 'Enter Right Amount' : this.outlet === '' ? 'Select Outlet Type' : 'Withdraw Credits?',
@@ -373,7 +373,7 @@ export default {
                     return a['.key'] === this.agentOBj.masterAgentKey 
                 })
                 let reciever = {...MA[0]}
-                console.log(reciever, 'receiver')
+                // console.log(reciever, 'receiver')
                 let recieverID = reciever['.key']
                 delete reciever['.key']
                 reciever.accountID = recieverID
@@ -381,7 +381,7 @@ export default {
                 let sender = {...this.agentOBj}
                 delete sender['.key']
                 sender.accountID = agentID
-                console.log(sender, 'ID')
+                // console.log(sender, 'ID')
                 var newHistory = {
                     amount: this.withdrawAmount,
                     from: sender,
@@ -394,10 +394,10 @@ export default {
             try {
                 let agentID = this.agentOBj['.key']
                 const response = await firebaseDb.collection('Agents').doc(agentID).update({ lastTransaction: new Date() })
-                if(response) { console.log('%c SUCCESS_LAST_TRANSACTION','background: #222; color: #bada55') }
+                // if(response) { console.log('%c SUCCESS_LAST_TRANSACTION','background: #222; color: #bada55') }
             } catch (error) {
-                console.log(error,'error')
-                console.log('%c ERROR_LAST_TRANSACTION','background: #D50000; color: #fff')
+                // console.log(error,'error')
+                // console.log('%c ERROR_LAST_TRANSACTION','background: #D50000; color: #fff')
             }      
         },
     },
@@ -413,7 +413,7 @@ export default {
         },
         agentWithdrawal(){
             let withdrawals = this.$lodash.filter(this.agentsWithdraw, p => {
-                console.log(p, 'p')
+                // console.log(p, 'p')
                 return p.agentKey === this.agentOBj['.key'] 
             })
             let orderBy = this.$lodash.orderBy(withdrawals, ['timestamp'], ['desc']);
@@ -454,42 +454,42 @@ export default {
     },
     mounted(){
         let user = this.$store.getters['useraccount/isAuthenticated']
-        console.log(user,'user')
+        // console.log(user,'user')
         this.$binding("walletObj", this.$db.collection("Wallet").doc(user.uid))
         .then((wallet) => {
-            console.log(wallet,'wallet') // => __ob__: Observer
+            // console.log(wallet,'wallet') // => __ob__: Observer
         }).catch(err => {
-            console.error(err)
+            // console.error(err)
         })
         this.$binding("agentOBj", this.$db.collection("Agents").doc(user.uid))
         .then((agents) => {
-            console.log(agents,'agents') // => __ob__: Observer
+            // console.log(agents,'agents') // => __ob__: Observer
         }).catch(err => {
-            console.error(err)
+            // console.error(err)
         })
         this.$binding('Wallet', this.$db.collection('Wallet'))
         .then(wallet => {
-          console.log(wallet, 'wallet')
+        //   console.log(wallet, 'wallet')
         })
         this.$binding('AgentsWithdrawal', this.$db.collection('AgentsWithdrawal'))
         .then(AgentsWithdrawal => {
-          console.log(AgentsWithdrawal, 'AgentsWithdrawal')
+        //   console.log(AgentsWithdrawal, 'AgentsWithdrawal')
         })
         this.$binding('MasterAgents', this.$db.collection('MasterAgents'))
         .then(MasterAgents => {
-          console.log(MasterAgents, 'MasterAgents')
+        //   console.log(MasterAgents, 'MasterAgents')
         })     
         this.$binding('PlayersWithdrawal', this.$db.collection('PlayersWithdrawal'))
         .then(PlayersWithdrawal => {
-          console.log(PlayersWithdrawal, 'PlayersWithdrawal')
+        //   console.log(PlayersWithdrawal, 'PlayersWithdrawal')
         })
         this.$binding('agentsWithdraw', this.$db.collection('AgentsWithdrawal').where("from.accountID", "==", user.uid).limit(40))
         .then(agentsWithdraw => {
-          console.log(agentsWithdraw, 'agentsWithdraw')
+        //   console.log(agentsWithdraw, 'agentsWithdraw')
         })
         this.$binding('NewplayersWithdraw', this.$db.collection('PlayersWithdrawal').where("agentKey", "==", user.uid).limit(40))
         .then(NewplayersWithdraw => {
-          console.log(NewplayersWithdraw, 'NewplayersWithdraw')
+        //   console.log(NewplayersWithdraw, 'NewplayersWithdraw')
         }) 
     }
 }
