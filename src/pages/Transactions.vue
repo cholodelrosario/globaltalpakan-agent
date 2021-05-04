@@ -20,9 +20,43 @@
                     :options="chips"
                 />
             </div>
-            <q-list v-for="(p, index) in getData" :key="index" class="text-white" dense>
+            <br>
+            <q-list bordered separator v-for="(p, index) in getData" :key="index" :class="p.from.accountID == user.uid ? 'text-white bg-green-10' : 'text-white bg-grey-10' " dense>
                 <br>
-                <div>
+                <q-item>
+                    <q-item-section caption top>
+                        <q-item-label overline class="text-white">P&nbsp;{{p.amount}}</q-item-label>
+                        <q-item-label overline class="text-white">{{p.from.accountID == user.uid ? 'Sales' : p.to.accountID == user.uid ? 'Purchases' : ''}}</q-item-label>
+                        <q-item-label overline class="text-white">{{p.from.accountID == user.uid ? p.to.accountPhone : p.to.accounID == user.uid ? p.to.accountPhone : p.from.accountPhone || p.from.Phone}}</q-item-label>
+                        <q-item-label overline class="text-white">{{p.from.accountID == user.uid ? p.to.accountName :  p.from.accountFirstName + ' ' + p.from.accountLastName}}</q-item-label>
+                    </q-item-section>
+
+                    <q-item-section top>
+                        <q-item-label overline class="text-white">{{p.timestamp.toDate('MM-DD-YYYY')}}</q-item-label>
+                    </q-item-section>
+
+                    <q-item-section side top>
+                        <q-btn color="primary" flat icon="mdi-dots-vertical">
+                            <q-menu class="flex flex-center" transition-show="scale" transition-hide="scale" >
+                                <q-list class="bg-dark text-primary">
+                                    <q-item v-if="p.archive == undefined || p.archive == false">
+                                        <q-btn @click="archive(p)" flat icon="mdi-archive-arrow-down" color="white"> <q-tooltip> Add To Archive </q-tooltip> </q-btn>
+                                    </q-item>
+                                    <q-item v-else>
+                                        <q-btn @click="archiveRemove(p)" v-close-popup flat icon="mdi-archive-arrow-up" color="white"> <q-tooltip> Remove from Archive </q-tooltip> </q-btn>
+                                    </q-item>
+                                    <q-item v-show="p.from.accountID === user.uid ">
+                                        <q-btn flat icon="mdi-send" @click="sendDialog(p)" color="white"> <q-tooltip> Send Credits </q-tooltip> </q-btn>
+                                    </q-item>
+                                    <q-item>
+                                        <q-btn v-close-popup @click="openDeleteDialog(p)" flat icon="mdi-delete" color="white"> <q-tooltip> Delete </q-tooltip> </q-btn>
+                                    </q-item>
+                                </q-list>
+                            </q-menu>
+                        </q-btn>
+                    </q-item-section>
+                </q-item>
+                <!-- <div>
                     <div :class="p.from.accountID == user.uid ? 'col-12 row bg-green-10 q-pa-sm' : 'col-12 row bg-grey-10 q-pa-sm' ">
                         <div class="row col-8 column q-pt-sm">
                             <div class="col-4 row items-start">
@@ -60,7 +94,7 @@
                             </q-btn>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </q-list>
             <div class="q-pa-lg flex flex-center">
                 <q-pagination
@@ -339,7 +373,7 @@ export default {
                     return creditHistory
             }else if(this.selectedFilter == 'Purchases'){
                 let creditTo = this.$lodash.filter(orderBy, p => {
-                    return p.to.accountID === user.uid || p.archive === false 
+                    return p.to.accountID === user.uid && p.archive !== true 
                 })
                     return creditTo
             }else if(this.selectedFilter == 'Hidden'){

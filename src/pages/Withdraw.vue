@@ -4,7 +4,7 @@
             <div class="row">
                 <q-tabs v-model="tab" class="q-pa-md text-h6" narrow-indicator dense align="justify">
                     <q-tab class="text-primary text-h5 text-weight-bolder" name="agentWithdraw" label="Agent Withdrawals" />
-                    <q-tab class="text-primary text-h5 text-weight-bolder" name="playerWithdraw" label="Players Withdrawals Request" />
+                    <q-tab class="text-primary text-h5 text-weight-bolder" name="playerWithdraw" label="Players W/drawals Request" />
                 </q-tabs>
                 <!-- <div><h5 class="text-primary text-weight-bolder q-mt-none">WITHDRAWALS</h5></div> -->
                 <q-tab-panels class="bg-dark full-width" v-model="tab" animated>
@@ -29,7 +29,19 @@
                             <h6 class="text-secondary flex flex-center q-ma-none">WITHDRAW HISTORY</h6>
                             <q-list v-for="(a, index) in this.getData" :key="index"  :class="a.status == false ? 'text-white bg-white-10' : 'text-white bg-green-10'" bordered separator>
                                 <!-- <br> -->
-                                <div class="col-12 row">
+                                <q-item>
+                                    <q-item-section caption top>
+                                        <q-item-label overline class="text-white">P&nbsp;{{a.amount}}</q-item-label>
+                                        <q-item-label overline class="text-white">{{a.status == false ? 'Pending' : 'Completed'}}</q-item-label>
+                                        <q-item-label overline class="text-white">{{a.to.accountPhone}}</q-item-label>
+                                        <q-item-label overline class="text-white">{{a.masterAgentName}}</q-item-label>
+                                    </q-item-section>
+
+                                    <q-item-section top>
+                                        <q-item-label overline class="text-white">{{a.timestamp.toDate('MM-DD-YYYY')}}</q-item-label>
+                                    </q-item-section>
+                                </q-item>
+                                <!-- <div class="col-12 row">
                                     <div class="row col-9 column q-pt-sm" >
                                         <div class="col-4q-pa-sm row items-start">
                                             <div class="col-2 column">P&nbsp;{{a.amount}}</div>
@@ -45,7 +57,7 @@
                                             <div class="col column">{{a.timestamp.toDate()}}</div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
                             </q-list>
                             <div class="q-pa-lg flex flex-center">
                                 <q-pagination
@@ -73,7 +85,37 @@
                             <!-- <h6 class="text-secondary flex flex-center q-ma-none">WITHDRAW HISTORY</h6> -->
                             <q-list v-for="(p, index) in this.newgetData" :key="index" :class="p.status == false ? 'text-white bg-white-10' : 'text-white bg-green-10'" bordered separator>
                                 <!-- <br> -->
-                                <div class="col-12 row">
+                                <q-item>
+                                    <q-item-section caption top>
+                                        <q-item-label overline class="text-white">P&nbsp;{{p.amount}}</q-item-label>
+                                        <q-item-label overline class="text-white">{{p.status == false ? 'Pending' : 'Completed'}}</q-item-label>
+                                        <q-item-label overline class="text-white">{{p.from.accountPhone}}</q-item-label>
+                                        <q-item-label overline class="text-white">{{p.from.accountName}}</q-item-label>
+                                    </q-item-section>
+
+                                    <q-item-section top>
+                                        <q-item-label overline class="text-white">{{p.timestamp.toDate('MM-DD-YYYY')}}</q-item-label>
+                                    </q-item-section>
+
+                                    <q-item-section side top>
+                                        <q-btn v-if="p.status == false" @click="approve(p)" flat round color="primary" icon="mdi-check-bold" >
+                                            <q-tooltip>
+                                                Approve
+                                            </q-tooltip>
+                                        </q-btn>
+                                        <q-btn v-else v-show="p.archive == undefined || p.archive == false" flat round @click="archive(p)" color="primary" icon="mdi-archive-arrow-down" >
+                                            <q-tooltip>
+                                                Add to Archive
+                                            </q-tooltip>
+                                        </q-btn>
+                                        <q-btn v-show="p.archive == true" flat round @click="archiveRemove(p)" color="primary" icon="mdi-archive-arrow-up" >
+                                            <q-tooltip>
+                                                Remove from Archive
+                                            </q-tooltip>
+                                        </q-btn>
+                                    </q-item-section>
+                                </q-item>
+                                <!-- <div class="col-12 row">
                                     <div class="row col-8 column q-pt-sm" >
                                         <div class="col-4q-pa-sm row items-start">
                                             <div class="col-2 column">P&nbsp;{{p.amount}}</div>
@@ -116,7 +158,7 @@
                                             </q-btn>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
                             </q-list>
                             <div class="q-pa-lg flex flex-center">
                                 <q-pagination
@@ -130,7 +172,7 @@
                                     active-text-color="black"
                                 />
                             </div>
-                            <q-btn outline rounded color="primary" label="See All" class="full-width q-mt-md" v-ripple to="/all-withdrawals"/> 
+                            <!-- <q-btn outline rounded color="primary" label="See All" class="full-width q-mt-md" v-ripple to="/all-withdrawals"/>  -->
                         </div>
                     </q-tab-panel>
                 </q-tab-panels>
@@ -426,7 +468,7 @@ export default {
             let orderByP = this.$lodash.orderBy(pWithdraw, ['timestamp'], ['desc']);
             if(this.selectedFilter == 'All'){
                 let AllArchive = this.$lodash.filter(orderByP, p => {
-                    return p.archive !== true
+                    return p.archive !== true || p.archive === undefined
                 })
                     return AllArchive
             }else if(this.selectedFilter == 'Approved'){

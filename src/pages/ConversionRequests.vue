@@ -15,7 +15,7 @@
                         <q-item-label class="text-secondary" caption >Credits</q-item-label>
                         <q-item-label class="text-h6">₱&nbsp;{{p.amount}} </q-item-label>
                     </q-item-section>
-                    <q-item-section side top>
+                    <q-item-section top>
                         <q-item-label class="text-secondary" caption>{{p.timestamp.toDate()}}</q-item-label>
                     </q-item-section>
                 </q-item>
