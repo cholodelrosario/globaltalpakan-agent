@@ -24,7 +24,7 @@
                         <span class="text-primary q-ml-sm">{{returnMyMasterAgent[0].accountFirstName + ' ' + returnMyMasterAgent[0].accountLastName}}</span>
                     </q-item-label>
                     <q-item-label caption lines="2">Commission: 
-                        <span class="q-ml-sm">{{agentObj.percentSetByMA}}%</span>
+                        <span class="q-ml-sm">{{agentObj && agentObj.percentSetByMA === undefined ? 1 : agentObj.percentSetByMA}}%</span>
                     </q-item-label>
                 </q-item-section>
             </q-item>
