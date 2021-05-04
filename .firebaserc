@@ -1,21 +1,13 @@
 {
   "projects": {
-    "default": "globaltalpakandev"
+      "default": "globaltalpakan"
   },
   "targets": {
     "globaltalpakan": {
       "hosting": {
         "agent": [
           "globaltalpakan-agent"
-        ]
-      }
-    },
-    "globaltalpakandev": {
-      "hosting": {
-        "agent": [
-          "globaltalpakandev-agent"
-        ]
-      }
+  }
     }
   }
 }
