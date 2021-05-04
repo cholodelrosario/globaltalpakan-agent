@@ -16,23 +16,23 @@ const firebaseConfig = {
     measurementId: "G-45QMR498D7"
   };
 
-// const firebaseConfig2 = {
-//     apiKey: "AIzaSyC09drLNNL0l_gdcX7betbiQOBtoTNtIX4",
-//     authDomain: "supernovatestdb.firebaseapp.com",
-//     databaseURL: "https://supernovatestdb.firebaseio.com",
-//     projectId: "supernovatestdb",
-//     storageBucket: "supernovatestdb.appspot.com",
-//     messagingSenderId: "478455129849",
-//     appId: "1:478455129849:web:3736ba26136a15dccb2428",
-//     measurementId: "G-SKFNK7TZ4M"
-//   };
+  const firebaseConfig2 = {
+    apiKey: "AIzaSyCP5X7jvtHZKPcidf040iI5iKQ2r4h5t7M",
+    authDomain: "globaltalpakandev.firebaseapp.com",
+    databaseURL: "https://globaltalpakandev.firebaseio.com",
+    projectId: "globaltalpakandev",
+    storageBucket: "globaltalpakandev.appspot.com",
+    messagingSenderId: "619989932276",
+    appId: "1:619989932276:web:7bfe210e08540ca9a7a6a1",
+    measurementId: "G-NDXDMF6S8G"
+  };
 
-let firebaseApp = firebase.initializeApp(firebaseConfig);
+let firebaseApp = firebase.initializeApp(firebaseConfig2);
 let firebaseAuth = firebaseApp.auth();
 let firebaseDb = firebaseApp.firestore();
 let firebaseStorage = firebaseApp.storage();
 
-let secondaryApp = firebase.initializeApp(firebaseConfig, "secondary");
+let secondaryApp = firebase.initializeApp(firebaseConfig2, "secondary");
 let Auth2 = secondaryApp.auth();
 
 export {firebase, firebaseAuth, firebaseDb, firebaseStorage, Auth2}

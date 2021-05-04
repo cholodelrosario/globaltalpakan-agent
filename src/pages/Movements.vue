@@ -77,19 +77,19 @@ export default {
     },
     mounted(){
         let user = this.$store.getters['useraccount/isAuthenticated']
-        console.log(user,'user')
+        // console.log(user,'user')
         this.$binding("Downlines", this.$db.collection("Players").where("agentKey", "==", user.uid))
         .then((downlines) => {
-            console.log(downlines,'downlines') // => __ob__: Observer
+            // console.log(downlines,'downlines') // => __ob__: Observer
         }).catch(err => {
-            console.error(err)
+            // console.error(err)
         })  
         
         this.$binding("Movements", this.$db.collection("Movements").where("topline", "==", user.uid))
         .then((movements) => {
-            console.log(movements,'movements') // => __ob__: Observer
+            // console.log(movements,'movements') // => __ob__: Observer
         }).catch(err => {
-            console.error(err)
+            // console.error(err)
         })  
     },
     computed: {

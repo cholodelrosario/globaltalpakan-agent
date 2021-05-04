@@ -15,20 +15,33 @@ Vue.use(Vuex)
  * async/await or return a Promise which resolves
  * with the Store instance.
  */
+const Store = new Vuex.Store({
+  modules: {
+    // example
+    sms,
+    useraccount,
+    wallet
+  },
+  plugins: [createPersistedState()],
+  // enable strict mode (adds overhead!)
+  // for dev mode only
+  strict: process.env.DEBUGGING
+})
 
-export default function (/* { ssrContext } */) {
-  const Store = new Vuex.Store({
-    modules: {
-      // example
-      sms,
-      useraccount,
-      wallet
-    },
-    plugins: [createPersistedState()],
-    // enable strict mode (adds overhead!)
-    // for dev mode only
-    strict: process.env.DEBUGGING
+if (process.env.DEV && module.hot) {
+  module.hot.accept(['./useraccount'], () => {
+    const newuseraccount = require('./useraccount').default
+    const newsms = require('./sms').default
+    const newwallet = require('./wallet').default
+    Store.hotUpdate({ 
+      modules: { 
+        notification: newsms,
+        useraccount: newuseraccount,
+        wallet: newwallet
+       },
+    })
   })
-
-  return Store
 }
+
+export default Store;
+

@@ -76,7 +76,7 @@ export default {
             let total = this.$lodash.sumBy(this.MTDHistory, a => { 
                 return parseInt(a.totalCommission)
                 })
-            console.log(total, 'sum')
+            // console.log(total, 'sum')
             return this.amountWithdraw = total
         },
         getData(){
@@ -89,24 +89,24 @@ export default {
     },
     mounted () {
         let user = this.$store.getters['useraccount/isAuthenticated']
-        console.log(user,'user')
+        // console.log(user,'user')
         this.$binding("walletObj", this.$db.collection("Wallet").doc(user.uid))
         .then((wallet) => {
-            console.log(wallet,'wallet') // => __ob__: Observer
+            // console.log(wallet,'wallet') // => __ob__: Observer
         }).catch(err => {
-            console.error(err)
+            // console.error(err)
         })
         this.$binding('agentObj', this.$db.collection('Agents').where("masterAgentKey", "==", user.uid))
         .then(agentObj => {
-          console.log(agentObj, 'agentObj')
+        //   console.log(agentObj, 'agentObj')
         })
         this.$binding('Agents', this.$db.collection('Agents'))
         .then(Agents => {
-          console.log(Agents, 'Agents')
+        //   console.log(Agents, 'Agents')
         })
         this.$binding('MTDHistory', this.$db.collection('MTDHistory').where("accountID", "==", user.uid).limit(20))
         .then(MTDHistory => {
-          console.log(MTDHistory, 'MTDHistory')
+        //   console.log(MTDHistory, 'MTDHistory')
         })
     }
 }

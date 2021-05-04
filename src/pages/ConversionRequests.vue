@@ -91,12 +91,12 @@ export default {
     },
     mounted(){
         let user = this.$store.getters['useraccount/isAuthenticated']
-        console.log(user,'user')
+        // console.log(user,'user')
         this.$binding("ConvertionObj", this.$db.collection("AgentConvertion").where("agentKey", "==", user.uid))
         .then((agent) => {
-            console.log(agent,'agent') // => __ob__: Observer
+            // console.log(agent,'agent') // => __ob__: Observer
         }).catch(err => {
-            console.error(err)
+            // console.error(err)
         })
     }
 }

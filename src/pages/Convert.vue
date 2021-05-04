@@ -40,18 +40,18 @@ export default {
     methods: {
         convertCommission(){
             let user = this.$store.getters['useraccount/isAuthenticated']
-            console.log(user,'user')
+            // console.log(user,'user')
             let userID = user.uid
             let currentCommissions = this.walletObj.commisionBalance
-            console.log(currentCommissions, 'current')
+            // console.log(currentCommissions, 'current')
             let total = parseFloat(currentCommissions) - parseFloat(this.convertAmount)
             var updateCommission = {
                 creditsAmount: this.walletObj.creditsAmount,
                 commisionBalance: total
             }
-            console.log(updateCommission, 'updateCommission')
+            // console.log(updateCommission, 'updateCommission')
             let sender = {...this.agentObj}
-            console.log(sender, 'ID')
+            // console.log(sender, 'ID')
             var sendToConvertion = {
                 amount: this.convertAmount,
                 agentKey: userID,
@@ -62,7 +62,7 @@ export default {
                 note: this.notes,
                 approveDate: new Date()
             }
-            console.log(sendToConvertion, 'sendToConvertion')
+            // console.log(sendToConvertion, 'sendToConvertion')
             if(this.convertAmount === '' || this.convertAmount < 500 || this.convertAmount > this.walletObj.commisionBalance || this.convertMethod === ''){
                 this.$q.dialog({
                     title: this.convertAmount === 0 ?  'Enter Amount to Convert?' : this.convertAmount < 500 ? 'Enter Right Amount' : this.convertAmount > this.walletObj.commisionBalance ? 'Enter Right Amount' : this.convertMethod === '' ? 'Select Convertion Type' : 'Withdraw Commission?',
@@ -96,24 +96,24 @@ export default {
         },
         recordHistory(){
                 let sender = {...this.agentObj}
-                console.log(sender, 'ID')
+                // console.log(sender, 'ID')
                 var newHistory = {
                     amount: this.convertAmount,
                     from: sender,
                     to: 'Administrator',
                     timestamp: new Date(),
                 }
-                console.log(newHistory, 'newHistory')
+                // console.log(newHistory, 'newHistory')
                 this.$db.collection('ConvertionHistory').add(newHistory)
         },
         async updateLastTransaction(){
             try {
                 let agentID = this.agentObj['.key']
                 const response = await firebaseDb.collection('Agents').doc(agentID).update({ lastTransaction: new Date() })
-                if(response) { console.log('%c SUCCESS_LAST_TRANSACTION','background: #222; color: #bada55') }
+                // if(response) { console.log('%c SUCCESS_LAST_TRANSACTION','background: #222; color: #bada55') }
             } catch (error) {
-                console.log(error,'error')
-                console.log('%c ERROR_LAST_TRANSACTION','background: #D50000; color: #fff')
+                // console.log(error,'error')
+                // console.log('%c ERROR_LAST_TRANSACTION','background: #D50000; color: #fff')
             }      
         },
         allCredits(){
@@ -122,18 +122,18 @@ export default {
     },
     mounted(){
         let user = this.$store.getters['useraccount/isAuthenticated']
-        console.log(user,'user')
+        // console.log(user,'user')
         this.$binding("walletObj", this.$db.collection("Wallet").doc(user.uid))
         .then((wallet) => {
-            console.log(wallet,'wallet') // => __ob__: Observer
+            // console.log(wallet,'wallet') // => __ob__: Observer
         }).catch(err => {
-            console.error(err)
+            // console.error(err)
         })
         this.$binding("agentObj", this.$db.collection("Agents").doc(user.uid))
         .then((agents) => {
-            console.log(agents,'agents') // => __ob__: Observer
+            // console.log(agents,'agents') // => __ob__: Observer
         }).catch(err => {
-            console.error(err)
+            // console.error(err)
         })
     }
 }
