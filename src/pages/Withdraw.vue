@@ -352,7 +352,7 @@ export default {
             let total = parseFloat(currentCredits) - parseFloat(this.withdrawAmount)
             var updateCredits = {
                 creditsAmount: total,
-                commisionBalance: this.walletObj.commisionBalance = undefined ? 0 : this.walletObj.commisionBalance
+                commisionBalance: this.walletObj.commisionBalance == undefined ? 0 : this.walletObj.commisionBalance
             }
             let MA = this.$lodash.filter(this.MasterAgents, a => {
                 // console.log(a, 'a')
