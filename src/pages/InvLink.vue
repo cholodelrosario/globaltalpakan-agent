@@ -6,14 +6,14 @@
             <q-card class="my-card text-center q-pa-md">
                 Use this link to recruit downlines.
                 Screenshot and share QR CODE / Send them the link below.
-                <qrcode :value="`https://globaltalpakandev.web.app/r/${returnLink}`" :options="{ width: 200 }"></qrcode>
+                <qrcode :value="`https://globaltalpakan.com/#/r/${returnLink}`" :options="{ width: 200 }"></qrcode>
                 <q-card-section>
                     <q-list bordered class="q-pa-md">
-                        <q-item-label caption lines="2">{{`https://globaltalpakandev.web.app/r/${returnLink}`}}</q-item-label>
+                        <q-item-label caption lines="2">{{`https://globaltalpakan.com/#/r/${returnLink}`}}</q-item-label>
                     </q-list>
                 </q-card-section>
                 <q-card-actions vertical align="center">
-                    <q-btn color="primary" class="text-black full-width" label="Copy Link" v-clipboard="`https://globaltalpakandev.web.app/#/r/${returnLink}`"         v-clipboard:success="clipboardSuccessHandler" v-clipboard:error="clipboardErrorHandler"/>
+                    <q-btn color="primary" class="text-black full-width" label="Copy Link" v-clipboard="`https://globaltalpakan.com/#/r/${returnLink}`"         v-clipboard:success="clipboardSuccessHandler" v-clipboard:error="clipboardErrorHandler"/>
                     <br>
                     <q-btn flat class="text-grey-8 full-width" label="back to dashboard"  icon="arrow_left" @click="$router.push('/agent')"/>
                 </q-card-actions>
