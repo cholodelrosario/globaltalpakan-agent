@@ -12,8 +12,8 @@
                         <q-space></q-space>
                         <div class="text-white q-mt-sm"><q-icon name="account_balance_wallet"  size="sm"/> CREDITS : ₱ {{walletObj ? walletObj.creditsAmount : 0}} </div>
                         <q-input v-model="withdrawAmount"  bottom-slots :error="!isValid" type="number" color="dark" label="Withdraw Amount" dark standout class="text-capitalize">
-                            <template v-if="withdrawAmount <= 500" v-slot:error>
-                                Min. Withdraw Amount is 500
+                            <template v-if="withdrawAmount <= 300" v-slot:error>
+                                Min. Withdraw Amount is 300
                             </template>
                             <template v-else-if="withdrawAmount >= walletObj.creditsAmount" v-slot:error>
                                 Insufficient Credit
@@ -379,10 +379,10 @@ export default {
                 status: false
             }
             // console.log(sendToWithdrawals, 'sendtoWithdrawals')
-            if(this.withdrawAmount === '' || this.withdrawAmount < 500 || this.withdrawAmount > this.walletObj.creditsAmount || this.outlet === ''){
+            if(this.withdrawAmount === '' || this.withdrawAmount < 300 || this.withdrawAmount > this.walletObj.creditsAmount || this.outlet === ''){
                 this.$q.dialog({
-                    title: this.withdrawAmount === 0 ?  'Enter Amount to Withdraw?' : this.withdrawAmount < 500 ? 'Enter Right Amount' : this.withdrawAmount > this.walletObj.creditsAmount ? 'Enter Right Amount' : this.outlet === '' ? 'Select Outlet Type' : 'Withdraw Credits?',
-                    message: this.withdrawAmount === 0 ?  'Enter Amount to Withdraw?' : this.withdrawAmount < 500 ? 'Min. Withdraw Amount is 500' : this.withdrawAmount > this.walletObj.creditsAmount ? 'Insufficient Credit' : this.outlet === '' ? 'Select Outlet Type' : 'Withdraw Credits?',
+                    title: this.withdrawAmount === 0 ?  'Enter Amount to Withdraw?' : this.withdrawAmount < 300 ? 'Enter Right Amount' : this.withdrawAmount > this.walletObj.creditsAmount ? 'Enter Right Amount' : this.outlet === '' ? 'Select Outlet Type' : 'Withdraw Credits?',
+                    message: this.withdrawAmount === 0 ?  'Enter Amount to Withdraw?' : this.withdrawAmount < 300 ? 'Min. Withdraw Amount is 300' : this.withdrawAmount > this.walletObj.creditsAmount ? 'Insufficient Credit' : this.outlet === '' ? 'Select Outlet Type' : 'Withdraw Credits?',
                     ok: 'Ok',
                     cancel: 'Cancel'
                     })
@@ -439,7 +439,7 @@ export default {
                 // if(response) { console.log('%c SUCCESS_LAST_TRANSACTION','background: #222; color: #bada55') }
             } catch (error) {
                 // console.log(error,'error')
-                // console.log('%c ERROR_LAST_TRANSACTION','background: #D50000; color: #fff')
+                // console.log('%c ERROR_LAST_TRANSACTION','background: #D30000; color: #fff')
             }      
         },
     },
@@ -525,11 +525,11 @@ export default {
         .then(PlayersWithdrawal => {
         //   console.log(PlayersWithdrawal, 'PlayersWithdrawal')
         })
-        this.$binding('agentsWithdraw', this.$db.collection('AgentsWithdrawal').where("from.accountID", "==", user.uid).limit(40))
+        this.$binding('agentsWithdraw', this.$db.collection('AgentsWithdrawal').where("from.accountID", "==", user.uid))
         .then(agentsWithdraw => {
         //   console.log(agentsWithdraw, 'agentsWithdraw')
         })
-        this.$binding('NewplayersWithdraw', this.$db.collection('PlayersWithdrawal').where("agentKey", "==", user.uid).limit(40))
+        this.$binding('NewplayersWithdraw', this.$db.collection('PlayersWithdrawal').where("agentKey", "==", user.uid))
         .then(NewplayersWithdraw => {
         //   console.log(NewplayersWithdraw, 'NewplayersWithdraw')
         }) 
