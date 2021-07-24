@@ -525,11 +525,11 @@ export default {
         .then(PlayersWithdrawal => {
         //   console.log(PlayersWithdrawal, 'PlayersWithdrawal')
         })
-        this.$binding('agentsWithdraw', this.$db.collection('AgentsWithdrawal').where("from.accountID", "==", user.uid).limit(40))
+        this.$binding('agentsWithdraw', this.$db.collection('AgentsWithdrawal').where("from.accountID", "==", user.uid))
         .then(agentsWithdraw => {
         //   console.log(agentsWithdraw, 'agentsWithdraw')
         })
-        this.$binding('NewplayersWithdraw', this.$db.collection('PlayersWithdrawal').where("agentKey", "==", user.uid).limit(40))
+        this.$binding('NewplayersWithdraw', this.$db.collection('PlayersWithdrawal').where("agentKey", "==", user.uid))
         .then(NewplayersWithdraw => {
         //   console.log(NewplayersWithdraw, 'NewplayersWithdraw')
         }) 
