@@ -104,7 +104,7 @@ export default {
         .then(Agents => {
         //   console.log(Agents, 'Agents')
         })
-        this.$binding('MTDHistory', this.$db.collection('MTDHistory').where("accountID", "==", user.uid).limit(20))
+        this.$binding('MTDHistory', this.$db.collection('MTDHistory').where("accountID", "==", user.uid))
         .then(MTDHistory => {
         //   console.log(MTDHistory, 'MTDHistory')
         })

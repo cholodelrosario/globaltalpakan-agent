@@ -109,7 +109,7 @@ export default {
         }).catch(err => {
             // console.error(err)
         })
-        this.$binding("commissionObj", this.$db.collection("CommissionHistory").where("accountID", "==", user.uid).limit(20))
+        this.$binding("commissionObj", this.$db.collection("CommissionHistory").where("accountID", "==", user.uid))
         .then((comms) => {
             // console.log(comms,'comms') // => __ob__: Observer
         }).catch(err => {

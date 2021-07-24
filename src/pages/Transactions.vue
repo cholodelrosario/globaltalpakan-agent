@@ -420,11 +420,11 @@ export default {
         .then(Players => {
         //   console.log(Players, 'Players')
         })
-        this.$binding('From', this.$db.collection('CreditHistory').where("from.accountID", "==", user.uid).limit(20))
+        this.$binding('From', this.$db.collection('CreditHistory').where("from.accountID", "==", user.uid))
         .then(From => {
         //   console.log(From, 'From')
         })
-        this.$binding('To', this.$db.collection('CreditHistory').where("to.accountID", "==", user.uid).limit(20))
+        this.$binding('To', this.$db.collection('CreditHistory').where("to.accountID", "==", user.uid))
         .then(To => {
         //   console.log(To, 'To')
         })
